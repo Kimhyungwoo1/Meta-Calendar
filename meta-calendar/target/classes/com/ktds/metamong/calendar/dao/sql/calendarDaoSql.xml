@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="CalendarDao">
+		
+	<insert id="insertNewCalendar" parameterType="CalendarVO" >
+			INSERT	INTO	CLNDR	(
+										CLNDR_ID 
+										, CLNDR_TITLE 
+										, CLNDR_SUB_TITLE 
+										, CLNDR_STRT_DT 
+										, CLNDR_END_DT 
+										, CLNDR_CRT_DT
+										, COUNT_YN
+									)
+			VALUES					(
+										'CD-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(CLNDR_ID_SEQ.NEXTVAL, 6, '0')
+										, #{calendarTitle}
+										, #{calendarSubTitle}
+										, #{startDate}
+										, #{endDate}
+										, TO_CHAR(SYSDATE, 'YYYYMMDD')
+										, 'N'
+									)
+		</insert>
+		
+		<resultMap type="CalendarVO" id="calendarMap">
+			<id column="CLNDR_ID" property="calendarId" />
+			<result column="CLNDR_TITLE" property="calendarTitle"/>
+			<result column="CLNDR_SUB_TITLE" property="calendarSubTitle"/>
+			<result column="CLNDR_STRT_DT" property="startDate"/>
+			<result column="CLNDR_END_DT" property="endDate"/>
+			<result column="CLNDR_GPS" property="gps"/>
+		</resultMap>
+		
+		<select id="selectAllCalendarList" parameterType="CalendarSearchVO" resultMap="calendarMap">
+		
+			<include refid="CommonDao.PAGING_HEADER" />
+				SELECT	CLNDR_ID
+						, CLNDR_TITLE
+						, CLNDR_SUB_TITLE
+						, CLNDR_STRT_DT
+						, CLNDR_END_DT
+						, CLNDR_GPS
+				FROM	CLNDR
+				ORDER	BY CLNDR_ID DESC
+			<include refid="CommonDao.PAGING_FOOTER" />
+			
+		</select>
+		
+		<select id="selectAllCalendarListCount" parameterType="CalendarSearchVO" resultType="_int">
+			SELECT	COUNT(1)
+			FROM	CLNDR
+		</select>
+		
+		<select id="selectOneCalendar" parameterType="CalendarVO" resultMap="calendarMap">
+			SELECT	CLNDR_ID
+						, CLNDR_TITLE
+						, CLNDR_SUB_TITLE
+						, CLNDR_STRT_DT
+						, CLNDR_END_DT
+						, CLNDR_GPS
+				FROM	CLNDR
+				WHERE	CLNDR_ID = #{calendarId}
+				ORDER	BY CLNDR_ID DESC
+		</select>
+		
+		<select id="selectOneNowDateCalendar" resultType="calendarVO" parameterType="string">
+			SELECT	CLNDR_ID calendarId
+					, CLNDR_TITLE calendarTitle
+					, CLNDR_SUB_TITLE calendarSubTitle
+					, CLNDR_STRT_DT startDate
+					, CLNDR_END_DT endDate
+			FROM		CLNDR
+			WHERE	CLNDR_STRT_DT = #{target}
+			OR		CLNDR_END_DT = #{target}
+			OR		#{target} BETWEEN CLNDR_STRT_DT AND CLNDR_END_DT
+		</select>
+		
+		<select id="selectHighlightsCalendar" resultType="calendarVO" >
+			SELECT	CLNDR_ID calendarId
+					, CLNDR_TITLE calendarTitle
+					, CLNDR_SUB_TITLE calendarSubTitle
+					, CLNDR_STRT_DT startDate
+					, CLNDR_END_DT endDate
+			FROM	CLNDR
+			
+		</select>
+		
+		<delete id="deleteCalendar" parameterType="string">
+			DELETE	
+			FROM	CLNDR	
+			WHERE	CLNDR_ID = #{calendarId}
+		</delete>
+		
+		<update id="updateCalendar" parameterType="CalendarVO">
+			UPDATE	CLNDR	
+			SET		CLNDR_TITLE = #{calendarTitle}
+					, CLNDR_SUB_TITLE = #{calendarSubTitle}
+					, CLNDR_STRT_DT = #{startDate}
+					, CLNDR_END_DT = #{endDate}
+			WHERE	CLNDR_ID = #{calendarId}
+		</update>
+		
+		<insert id="insertDateSub" parameterType="CalendarDateCountVO">
+			INSERT	INTO		CLNDR_DT 	(
+											COUNT
+											, CLNDR_ID
+										)
+			SELECT 	CLNDR_END_DT - CLNDR_STRT_DT
+					, CLNDR_ID
+			FROM 	CLNDR;
+			WHERE	CLNDR_YN = 'N'
+		</insert>
+		
+		<update id="updateCalendarYN" parameterType="CalendarVO">
+			UPDATE	CLNDR
+			SET		CLNDR_YN = 'Y'
+		</update>
+		
+		<select id="selectTodayToDoList" resultMap="calendarMap">
+			SELECT  /*[calendarDao][selectTodayToDoList]*/
+					CLNDR_ID 
+			        , CLNDR_TITLE 
+			        , CLNDR_SUB_TITLE 
+			        , CLNDR_STRT_DT 
+			        , CLNDR_END_DT 
+			        , CLNDR_GPS 
+			FROM    CLNDR
+			WHERE   CLNDR_STRT_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') 
+		</select>
+		
+	</mapper>
+	
+	

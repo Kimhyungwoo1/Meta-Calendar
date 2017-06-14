@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+		
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.ktds.metamong.user.vo.UserVO" alias="UserVO"/>
+		<typeAlias type="com.ktds.metamong.user.vo.UserSearchVO" alias="UserSearchVO"/>
+		
+		<typeAlias type="com.ktds.metamong.calendar.vo.CalendarVO" alias="CalendarVO"/>
+		<typeAlias type="com.ktds.metamong.calendar.vo.CalendarSearchVO" alias="CalendarSearchVO"/>
+		<typeAlias type="com.ktds.metamong.calendar.vo.CalendarDateCountVO" alias="CalendarDateCountVO"/>
+		
+		<typeAlias type="com.ktds.metamong.goal.vo.GoalVO" alias="GoalVO"/>
+		<typeAlias type="com.ktds.metamong.goal.vo.GoalSearchVO" alias="GoalSearchVO"/>
+	</typeAliases>
+
+	<mappers>
+		<!-- Paging 관련 쿼리들이 있는 매퍼 -->
+		<mapper resource="commonDaoSql.xml" />
+		<mapper resource="com/ktds/metamong/user/dao/sql/userDaoSql.xml"/>
+		<mapper resource="com/ktds/metamong/calendar/dao/sql/calendarDaoSql.xml"/>
+		<mapper resource="com/ktds/metamong/goal/dao/sql/goalDaoSql.xml"/>
+	</mappers> 
+
+</configuration>

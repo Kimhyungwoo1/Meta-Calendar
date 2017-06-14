@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="GoalDao">
+		
+		<insert id="insertNewYearGoal" parameterType="GoalVO" >
+			INSERT	INTO		GOL		(
+										GOL_ID
+										, GOL_TITLE
+										, GOL_SUB_TITLE
+										, GOL_TRM
+										, GOL_CRT_DT
+									)
+			VALUES					(
+										'GO-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(GOL_ID_SEQ.NEXTVAL, 6, '0')
+										, #{goalTitle}
+										, #{goalSubTitle}
+										, 'Y'
+										, TO_CHAR(SYSDATE, 'YYYY')
+									)
+		</insert>
+		
+		<insert id="insertNewMonthGoal" parameterType="GoalVO" >
+			INSERT	INTO		GOL		(
+										GOL_ID
+										, GOL_TITLE
+										, GOL_SUB_TITLE
+										, GOL_TRM
+										, GOL_CRT_DT
+									)
+			VALUES					(
+										'GO-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(GOL_ID_SEQ.NEXTVAL, 6, '0')
+										, #{goalTitle}
+										, #{goalSubTitle}
+										, 'M'
+										, TO_CHAR(SYSDATE, 'YYYYMM')
+									)
+		</insert>
+		
+		<resultMap type="GoalVO" id="goalMap">
+			<id column="GOL_ID" property="goalId" />
+			<result column="GOL_TITLE" property="goalTitle"/>
+			<result column="GOL_SUB_TITLE" property="goalSubTitle"/>
+			<result column="GOL_TRM" property="goalTerm"/>
+			<result column="GOL_CRT_DT" property="goalCreateDate"/>
+		</resultMap>
+		
+		<select id="selectAllGoalList" parameterType="GoalSearchVO" resultMap="goalMap">
+		
+			<include refid="CommonDao.PAGING_HEADER" />
+				SELECT	GOL_ID
+						, GOL_TITLE
+						, GOL_SUB_TITLE
+						, GOL_TRM
+						, GOL_CRT_DT
+				FROM		GOL
+				ORDER	BY GOL_ID DESC
+			<include refid="CommonDao.PAGING_FOOTER" />
+			
+		</select>
+		
+		<select id="selectAllGoalListCount" parameterType="GoalSearchVO" resultType="_int">
+			SELECT	COUNT(1)
+			FROM		GOL
+		</select>
+		
+		<select id="selectAllGoalView" resultType="GoalVO">
+			SELECT	GOL_ID goalId
+					, GOL_TITLE goalTitle
+					, GOL_SUB_TITLE goalSubTitle
+					, GOL_TRM goalTerm
+					, GOL_CRT_DT goalCreateDate
+			FROM		GOL
+			ORDER	BY GOL_ID DESC
+		</select>
+		
+		<select id="selectOneGoal" parameterType="string" resultMap="goalMap">
+			SELECT	GOL_ID
+						, GOL_TITLE
+						, GOL_SUB_TITLE
+				FROM		GOL
+				WHERE	GOL_ID = #{goalId}
+				ORDER	BY GOL_ID DESC
+		</select>
+		
+		<delete id="deleteGoal" parameterType="string" >
+			DELETE	
+			FROM		GOL
+			WHERE	GOL_ID = #{goalId}
+		</delete>
+		
+		<update id="updateGoal" parameterType="GoalVO" >
+			UPDATE	GOL
+			SET		GOL_TITLE = #{goalTitle}
+					, GOL_SUB_TITLE = #{goalSubTitle}
+			WHERE	GOL_ID = #{goalId}
+		</update>
+		
+	</mapper>
+	
+	

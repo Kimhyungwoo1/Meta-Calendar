@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+#background {
+	
+	text-align: center; 
+}
+
+#total {
+	width: 26%;
+	height: 500px;
+	display: inline-block;
+	text-align: center; 
+	border: 1px solid #333;
+}
+
+#social {
+	
+}
