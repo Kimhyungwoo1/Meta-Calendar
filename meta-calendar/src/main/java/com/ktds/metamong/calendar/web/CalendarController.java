@@ -6,10 +6,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +26,7 @@ import com.ktds.metamong.calendar.vo.CalendarVO;
 
 @Controller
 public class CalendarController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(CalendarController.class);
 
 	private CalendarService calendarService;
@@ -32,26 +35,26 @@ public class CalendarController {
 		this.calendarService = calendarService;
 	}
 
-	@RequestMapping(value="/cal/list", method=RequestMethod.GET)
+	@RequestMapping(value = "/cal/list", method = RequestMethod.GET)
 	public ModelAndView viewListPage(CalendarDateCountVO calendarDateCountVO, CalendarVO calendarVO) {
-		
+
 		List<CalendarVO> calendarList = calendarService.getHighlightsCalendar(calendarDateCountVO, calendarVO);
-		//CalendarVO oneCalendar = calendarService.getOneCalendar(calendarId);
-	
+		// CalendarVO oneCalendar = calendarService.getOneCalendar(calendarId);
+
 		ModelAndView view = new ModelAndView();
 
 		view.setViewName("calendar/calendar_main");
 		view.addObject("calendarList", calendarList);
-		
+
 		return view;
 	}
 
 	@ResponseBody
-	@RequestMapping(value="/cal/list", method=RequestMethod.POST)
+	@RequestMapping(value = "/cal/list", method = RequestMethod.POST)
 	public List<CalendarVO> sendAllList(CalendarDateCountVO calendarDateCountVO, CalendarVO calendarVO) {
-		
+
 		List<CalendarVO> calendarList = calendarService.getHighlightsCalendar(calendarDateCountVO, calendarVO);
-		
+
 		return calendarList;
 	}
 
@@ -81,15 +84,15 @@ public class CalendarController {
 
 		return "redirect:/cal/list";
 	}
-	
+
 	@RequestMapping("/cal/delete")
-	public void doDeleteArticleAction(@RequestParam(value="calendarId") String calendarId
-					, HttpServletResponse response){
-		
+	public void doDeleteArticleAction(@RequestParam(value = "calendarId") String calendarId,
+			HttpServletResponse response) {
+
 		System.out.println(calendarId);
 		boolean isSuccess = calendarService.removeCalendar(calendarId);
-		
-		if(isSuccess){
+
+		if (isSuccess) {
 			try {
 				PrintWriter write = response.getWriter();
 				write.write("ok");
@@ -99,27 +102,27 @@ public class CalendarController {
 			}
 		}
 	}
-	
-	@RequestMapping(value="/cal/detail/{calendarId}", method=RequestMethod.GET)
-	public ModelAndView viewDetailArticle(@PathVariable String calendarId){
 
-		logger.info("aa : " +calendarId);
-		
+	@RequestMapping(value = "/cal/detail/{calendarId}", method = RequestMethod.GET)
+	public ModelAndView viewDetailArticle(@PathVariable String calendarId) {
+
+		logger.info("aa : " + calendarId);
+
 		CalendarVO oneCalendar = calendarService.getOneCalendar(calendarId);
-		
+
 		ModelAndView view = new ModelAndView();
 		view.setViewName("calendar/calendar_modify");
 		view.addObject("oneCalendar", oneCalendar);
-		
+
 		return view;
 	}
-	
-	@RequestMapping(value="/cal/update", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/cal/update", method = RequestMethod.POST)
 	public void ActionUpdate(HttpServletResponse response, CalendarVO calendarVO) {
-		
+
 		boolean calendarUpdate = calendarService.updateCalendar(calendarVO);
-		
-		if( calendarUpdate ) {
+
+		if (calendarUpdate) {
 			try {
 				PrintWriter write = response.getWriter();
 				write.write("ok");
@@ -131,18 +134,51 @@ public class CalendarController {
 		}
 	}
 
-	//기능 테스트를 위한 페이지 - 규동
+	// 기능 테스트를 위한 페이지 - 규동
 	@RequestMapping(value = "/cal/test", method = RequestMethod.GET)
 	public String testPage() {
 		return "calendar/test";
 	}
-		
+
+	@RequestMapping(value = "/cal/test", method = RequestMethod.POST)
+	public String doTestPage(
+			@Valid @ModelAttribute("valiTestForm") Errors errors,
+			CalendarVO calendarVO,
+			HttpServletResponse response, HttpServletRequest request) {
+
+		if (errors.hasErrors()) {
+			return "/cal/test";
+		}
+
+		CalendarVO calendar = new CalendarVO();
+
+		calendar.setCalendarTitle(calendarVO.getCalendarTitle());
+		calendar.setCalendarSubTitle(calendarVO.getCalendarSubTitle());
+		calendar.setStartDate(calendarVO.getStartDate());
+		calendar.setEndDate(calendarVO.getEndDate());
+
+		boolean isSuccess = calendarService.addNewCalendar(calendar);
+
+		if (isSuccess) {
+			try {
+				PrintWriter write = response.getWriter();
+				write.write("ok");
+				write.flush();
+				write.close();
+			} catch (IOException e) {
+			}
+		}
+
+		return "redirect:/cal/list";
+
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "/cal/dday", method = RequestMethod.POST)
-	public List<CalendarVO> alertTest(){
-		
+	public List<CalendarVO> alertTest() {
+
 		List<CalendarVO> toDoList = calendarService.getAllTodayToDoList();
-		
+
 		return toDoList;
 	}
 
@@ -195,11 +231,11 @@ public class CalendarController {
 
 		return oneCalendar;
 	}
-	
+
 	@RequestMapping("/")
 	public String mainPage(){
 		
 		return "common/mainPage";
 	}
-	
+
 }

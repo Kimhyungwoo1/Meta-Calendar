@@ -26,7 +26,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/user/signup", method=RequestMethod.GET)
-	public String viewsingUpPage() {
+	public String viewsignUpPage() {
 		return "user/signUp";
 	}
 	
