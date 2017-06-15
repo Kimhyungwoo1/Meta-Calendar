@@ -95,8 +95,6 @@ public class GoalController {
 	@RequestMapping(value="/goal/update", method=RequestMethod.POST)
 	public void ActionUpdate(GoalVO goalVO, HttpServletResponse response) {
 		
-		logger.info("aaa"+goalVO.getGoalId());
-		
 		boolean goal = goalService.modifyGoal(goalVO);
 		
 		try {

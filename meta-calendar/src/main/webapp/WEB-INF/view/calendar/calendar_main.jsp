@@ -31,8 +31,6 @@
 	
 	var yearMonth = year + (month < 10 ? "0" + month : month)
 	
-	console.log(year);
-	console.log(yearMonth);
 	
 	$().ready(function() {
 		
@@ -50,9 +48,9 @@
 				
 				for ( i = 0; i < listLength; i++) {
 					var event = '<div class="event-index" >' + data[i].calendarTitle + '</div>'
+					
 					if ( divDate + " 00:00:00.0" == data[i].startDate) {
 						check = true;
-						console.log(data[i]);
 						console.log(element);
 						if (check == true) {
 							
@@ -310,7 +308,7 @@
 </script>
 
 </head>
-<body>
+<body >
 	<div id="All" style="margin: 10px;">
 	<div id="left">
 		<div id="total">
@@ -342,19 +340,23 @@
 		</div>
 	</div>
 	<div id="right">
-		<div id="year" style="height: 40%; margin-bottom: 10px; overflow: auto; ">
+		<div id="year" style="height: 40%; margin-bottom: 10px; word-break:normal;">
 			<a href="javascript:void(0);" data-toggle="modal" data-target="#goalModal"
 				style="float: right; font-size: 16px;">목표 추가</a>
 			<h3>연간 목표</h3>
 			<table class="table">
 				<colgroup>
-					<col width="35%">
-					<col width="*">
+					<col width="30%">
+					<col width="45%">
+					<col width="15%">
+					<col width="15%">
 				</colgroup>
 				<thead>
 					<tr>
 						<th>목표</th>
 						<th>메모</th>
+						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody	id="yearTbody">
@@ -362,17 +364,21 @@
 				</tbody>
 			</table>
 		</div>
-		<div id="month" style="height: 40%; margin-bottom: 10px; overflow: auto;">
+		<div id="month" style="height: 40%; margin-bottom: 10px; word-break:normal; ">
 			<h3>월간 목표</h3>
 			<table class="table">
 					<colgroup>
-						<col width="35%">
-						<col width="*">
+						<col width="30%">
+						<col width="45%">
+						<col width="15%">
+						<col width="15%">
 					</colgroup>
 					<thead>
 						<tr>
 							<th>목표</th>
 							<th>메모</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody	id="monthTbody">
