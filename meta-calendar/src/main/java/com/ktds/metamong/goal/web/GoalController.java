@@ -57,7 +57,7 @@ public class GoalController {
 	@RequestMapping("/goal/detail/{id}")
 	public ModelAndView viewDetailArticle(@PathVariable String id){
 		ModelAndView view = new ModelAndView();
-		view.setViewName("goal/detail");
+		view.setViewName("calendar/goal_modify");
 		
 		GoalVO goal = goalService.getOneGoal(id);
 		view.addObject("goal",goal);
@@ -65,30 +65,49 @@ public class GoalController {
 	}
 	
 	@RequestMapping(value="/goal/delete", method=RequestMethod.POST)
-	public String doDeleteArticleAction(@RequestParam(value="goalId") String goalId){
+	public void doDeleteArticleAction(@RequestParam(value="goalId") String goalId, HttpServletResponse response){
 		
+		boolean delete = goalService.removeGoal(goalId);
 		
-		return null;
-	}
-	@RequestMapping(value="/goal/update/{goalId}", method=RequestMethod.GET)
-	public ModelAndView viewUpdatePage(@PathVariable String goalId) {
-		ModelAndView view = new ModelAndView();
+		if(delete) {
+			try {
+				PrintWriter write = response.getWriter();
+				write.write("ok");
+				write.flush();
+				write.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			try {
+				PrintWriter write = response.getWriter();
+				write.write("fail");
+				write.flush();
+				write.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		
-		GoalVO goalVO = goalService.getOneGoal(goalId);
-		
-		view.setViewName("goal/update");
-		view.addObject("goal", goalVO);
-		
-		return view;
 	}
 	
-	@RequestMapping(value="/goal/update/{goalId}", method=RequestMethod.POST)
-	public String ActionUpdate(GoalVO goalVO, @PathVariable String goalId) {
+	@RequestMapping(value="/goal/update", method=RequestMethod.POST)
+	public void ActionUpdate(GoalVO goalVO, HttpServletResponse response) {
 		
-		goalVO.setGoalId(goalId);
+		logger.info("aaa"+goalVO.getGoalId());
+		
 		boolean goal = goalService.modifyGoal(goalVO);
 		
-		return "redirect:/goal/list";
+		try {
+			PrintWriter write = response.getWriter();
+			write.write("ok");
+			write.flush();
+			write.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
