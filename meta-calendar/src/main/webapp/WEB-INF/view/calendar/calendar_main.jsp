@@ -79,10 +79,10 @@
 					titleText += '<div>'+ data[i].goalSubTitle +'</div>'
 					titleText += '</th>'
 					titleText += '<th>'
-					titleText += '<div id="goalModify data-id="' + data[i].goalId + '">수정<div>'
+					titleText += '<div class="goalModify" data-id="' + data[i].goalId + '">수정<div>'
 					titleText += '</th>'
 					titleText += '<th>'
-					titleText += '<div id="goalDelete data-id="' + data[i].goalId + '">삭제<div>'
+					titleText += '<div class="goalDelete" data-id="' + data[i].goalId + '">삭제<div>'
 					titleText += '</th>'
 					titleText += '</tr>'
 				
@@ -114,22 +114,39 @@
 			
 		})
 		
-		$("#yearTbody").on("click", "#goalModify", function() {
-			
-		});
-		
-		$("#yearTbody").on("click", "#goalDelete", function() {
+		$("#yearTbody").on("click", ".goalModify", function() {
 			var goalId = $(this).data('id');
+			window.open("<c:url value="/goal/detail/"/>" + goalId, "modifyWindow", "width: 300px, height:100px");
 		});
 		
-		$("#monthTbody").on("click", "#goalModify", function() {
-			
-		});
-		
-		$("#monthTbody").on("click", "#goalDelete", function() {
+		$("#yearTbody").on("click", ".goalDelete", function() {
 			var goalId = $(this).data('id');
+			$.post("<c:url value="/goal/delete"/>", {goalId:goalId}, function(res) {
+				if (res == "ok") {
+					location.reload();
+				}
+				else {
+					alert("실패");
+				}
+			});
+		});
+		
+		$("#monthTbody").on("click", ".goalModify", function() {
+			var goalId = $(this).data('id');
+			window.open("<c:url value="/goal/detail/"/>" + goalId, "modifyWindow", "width: 300px, height:100px");
 			
-			$.post("<c:url value=""/>")
+		});
+		
+		$("#monthTbody").on("click", ".goalDelete", function() {
+			var goalId = $(this).data('id');
+			$.post("<c:url value="/goal/delete"/>", {goalId:goalId}, function(res) {
+				if (res == "ok") {
+					location.reload();
+				}
+				else {
+					alert("실패");
+				}
+			});
 		});
 		
 		$.post("<c:url value="/cal/dday" />", {
@@ -143,8 +160,7 @@
 		
 		$("#todayTbody").on("click", "#calendarModify", function() {
 			var calendarId = $(this).data('id');
-			
-			location.href="<c:url value="/cal/detail/" />" + calendarId;
+			window.open("<c:url value="/cal/detail/" />" + calendarId, "modifyWindow", "width:300px, height:300px" );
 			
 		});
 		
@@ -157,7 +173,7 @@
 					location.reload();
 				}
 				else {
-					alert("실패")
+					alert("실패");
 				}
 			});
 		});
@@ -366,7 +382,7 @@
 		</div>
 	</div>
 </div>
-	<!-- insert 모달 창 -->
+<!-- insert 모달 창 -->
 	<div class="modal fade" id="insertModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -468,7 +484,7 @@
 										<div class="col-md-7">
 											<label for="">목표종류</label><br/>
 											<div class="btn-group" data-toggle="buttons">
-												<label class="btn btn-primary active">
+												<label class="btn btn-primary">
 													<input type="radio" name="year" id="year" autocomplete="off"> 연간목표
 												</label>
 												<label class="btn btn-primary">
@@ -491,7 +507,6 @@
 		</div>
 	</div>
 	
-
 </body>
 
 </html>

@@ -77,11 +77,11 @@
 		
 		<select id="selectOneGoal" parameterType="string" resultMap="goalMap">
 			SELECT	GOL_ID
-						, GOL_TITLE
-						, GOL_SUB_TITLE
-				FROM		GOL
-				WHERE	GOL_ID = #{goalId}
-				ORDER	BY GOL_ID DESC
+					, GOL_TITLE
+					, GOL_SUB_TITLE
+			FROM		GOL
+			WHERE	GOL_ID = #{goalId}
+			ORDER	BY GOL_ID DESC
 		</select>
 		
 		<delete id="deleteGoal" parameterType="string" >
