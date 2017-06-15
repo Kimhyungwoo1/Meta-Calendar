@@ -142,36 +142,35 @@ public class CalendarController {
 
 	@RequestMapping(value = "/cal/test", method = RequestMethod.POST)
 	public String doTestPage(
-			@Valid @ModelAttribute("valiTestForm") @RequestParam(value = "calendarTitle") String calendarTitle,
-			@RequestParam(value = "calendarSubTitle") String calendarSubTitle,
-			@RequestParam(value = "startDate") String startDate, @RequestParam(value = "endDate") String endDate,
-			CalendarVO calendarVO, HttpServletResponse response, Errors errors, HttpServletRequest request) {
+			@Valid @ModelAttribute("valiTestForm") Errors errors,
+			CalendarVO calendarVO,
+			HttpServletResponse response, HttpServletRequest request) {
 
 		if (errors.hasErrors()) {
-			return "redirect:/cal/test";
-		} else {
-
-			calendarVO = new CalendarVO();
-
-			calendarVO.setCalendarTitle(calendarTitle);
-			calendarVO.setCalendarSubTitle(calendarSubTitle);
-			calendarVO.setStartDate(startDate);
-			calendarVO.setEndDate(endDate);
-
-			boolean isSuccess = calendarService.addNewCalendar(calendarVO);
-
-			if (isSuccess) {
-				try {
-					PrintWriter write = response.getWriter();
-					write.write("ok");
-					write.flush();
-					write.close();
-				} catch (IOException e) {
-				}
-			}
-
-			return "redirect:/cal/list";
+			return "/cal/test";
 		}
+
+		CalendarVO calendar = new CalendarVO();
+
+		calendar.setCalendarTitle(calendarVO.getCalendarTitle());
+		calendar.setCalendarSubTitle(calendarVO.getCalendarSubTitle());
+		calendar.setStartDate(calendarVO.getStartDate());
+		calendar.setEndDate(calendarVO.getEndDate());
+
+		boolean isSuccess = calendarService.addNewCalendar(calendar);
+
+		if (isSuccess) {
+			try {
+				PrintWriter write = response.getWriter();
+				write.write("ok");
+				write.flush();
+				write.close();
+			} catch (IOException e) {
+			}
+		}
+
+		return "redirect:/cal/list";
+
 	}
 
 	@ResponseBody

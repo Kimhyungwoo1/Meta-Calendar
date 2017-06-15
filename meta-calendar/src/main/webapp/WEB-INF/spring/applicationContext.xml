@@ -13,9 +13,9 @@
 	<mvc:resources  mapping="/static/img/**"  location="/WEB-INF/resources/img/"/>
 	<mvc:resources  mapping="/static/fonts/**" location="/WEB-INF/resources/fonts/" />
 
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"></bean>
 
-	</bean>
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
