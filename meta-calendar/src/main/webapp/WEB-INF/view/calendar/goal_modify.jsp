@@ -22,78 +22,52 @@
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.1.1.min.js" /> "></script>
 <script type="text/javascript" src="<c:url value="/static/js/bootstrap.min.js"/> "></script>
 <script type="text/javascript">
-
-	
-	
-	var day = new Date().getDate();
-	var month = new Date().getMonth()+1;
-	var year = new Date().getFullYear();
-	var today = year + '/0' + month + '/0' + day; //오늘날짜 String형
-	
 	$().ready(function() {
 		$("#modifyButton").click(function() {
-			$.post("<c:url value="/cal/update"/>", $("#modifyForm").serialize(), function(response) {
-				if ( response == 'ok') {
+			console.log($("#modifyForm").serialize());
+			 $.post("<c:url value="/goal/update"/>", $("#modifyForm").serialize(), function(response) {
+				if ( response == "ok") {
 					opener.document.location.reload();
 					self.close();
 				}
-				else{
+				else {
 					alert("실패");
-				}
+				} 
 			});
-		});
+		}); 
 	});
-
 </script>
-
 </head>
-<body style="margin-left: 30px; ">
+<body style="margin-left: 30px;">
 
-	<div style="width: 90%; ">
-		<h1>일정 수정</h1>
+	<div style="width: 90%;">
+		<h1>목표 수정</h1>
 		<form id="modifyForm">
-			<input type="hidden" name="calendarId" value="${oneCalendar.calendarId}" />
+			<input type="hidden" name="goalId" value="${goal.goalId}" />
+			<input type="hidden" name="goalCreateDate" value="${goal.goalCreateDate}" />
 			<div class="row">
 				<div class="col-md-11">
 					<div class="form-group">
-						<label for="calendarTitle">일정</label> <input type="text"
-							id="calendarTitle" name="calendarTitle"
-							placeholder="일정을 입력하세요." class="form-control"
-							value="${oneCalendar.calendarTitle}">
+						<label for="goalTitle">일정</label> <input type="text"
+							id="goalTitle" name="goalTitle"
+							placeholder="목표를 입력하세요." class="form-control"
+							value="${goal.goalTitle}">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-11">
 					<div class="form-group">
-						<label for="calendarSubTitle">메모</label> <input
-							type="text" id="calendarSubTitle" name="calendarSubTitle"
+						<label for="goalSubTitle">메모</label> <input type="text"
+							id="goalSubTitle" name="goalSubTitle"
 							placeholder="메모를 입력하세요." class="form-control"
-							value="${oneCalendar.calendarSubTitle}">
+							value="${goal.goalSubTitle}">
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-11">
-					<div class="form-group">
-						<label for="startDate">시작 날짜</label> <input type="date"
-							id="startDate" name="startDate" class="form-control"
-							value="${oneCalendar.startDate}">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-11">
-					<div class="form-group">
-						<label for="endDate">끝 날짜</label> <input type="date"
-							id="endDate" name="endDate" class="form-control"
-							value="${oneCalendar.endDate}">
-					</div>
-				</div>
-			</div>
-			<input type="button" id="modifyButton" class="btn btn-default" data-dismiss="modal" value="수정"/>
+			<input type="button" id="modifyButton" class="btn btn-default"
+				data-dismiss="modal" value="수정" />
 		</form>
 	</div>
 </body>
-
 </html>

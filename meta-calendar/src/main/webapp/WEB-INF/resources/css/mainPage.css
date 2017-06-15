@@ -40,7 +40,7 @@ p {
   }
 }
 
-div.gallery1 {
+div.gallery {
     margin: 90px;
     border: 1px solid #ccc;
     float: left;
@@ -67,3 +67,14 @@ body {
   margin: 0 auto;
   padding: 5px 5px 5px 5px;
 }
+
+/* print-hide view-icon view-padding {
+	 width: 150px;
+    height: auto;
+} */
+
+/* body .i-kakao-m {
+    background-image: url(../images/icon_sprite_d.png);
+    background-position: -280px -386px;
+    width: 30px;
+    height: 30px; */
