@@ -53,6 +53,7 @@
 	</bean>
 	
 	<bean id="kakaoController" class="com.ktds.metamong.user.web.KakaoController">
+		<property name="userService" ref="userServiceImpl" />
 	</bean>
 	
 	<bean id="calendarController" class="com.ktds.metamong.calendar.web.CalendarController">
