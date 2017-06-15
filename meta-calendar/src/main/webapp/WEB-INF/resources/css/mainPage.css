@@ -1,0 +1,80 @@
+@CHARSET "UTF-8";
+
+#background {
+	
+	text-align: center; 
+}
+
+#total {
+	width: 26%;
+	height: 500px;
+	display: inline-block;
+	text-align: center; 
+	border: 1px solid #333;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  background-color: #333;
+
+  margin: 100px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+p {
+  animation-duration: 20s;
+  animation-name: slidein;
+  animation-iteration-count: infinite;
+}
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%; 
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+div.gallery {
+    margin: 90px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 255px;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: 300;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+
+body {
+  width: 900px;
+  background-color: #f0fff0;
+  margin: 0 auto;
+  padding: 5px 5px 5px 5px;
+}
+
+/* print-hide view-icon view-padding {
+	 width: 150px;
+    height: auto;
+} */
+
+/* body .i-kakao-m {
+    background-image: url(../images/icon_sprite_d.png);
+    background-position: -280px -386px;
+    width: 30px;
+    height: 30px; */
