@@ -199,7 +199,7 @@ public class CalendarController {
 	@RequestMapping("/")
 	public String mainPage(){
 		
-		return "cal/main";
+		return "common/mainPage";
 	}
 	
 }
