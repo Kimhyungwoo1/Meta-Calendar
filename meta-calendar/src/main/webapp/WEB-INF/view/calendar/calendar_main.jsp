@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -184,7 +185,8 @@
 					location.reload();
 				}
 				else {
-					alert("실패");
+					alert("모든 항목을 입력해주세요.");
+					$("#insertModal").modal("show");
 				}
 			});
 		});
@@ -398,13 +400,14 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-md-10">
-								<form id="writeForm">
+								<form:form commandName="writeForm">
 									<div class="row">
 										<div class="col-md-7">
 											<div class="form-group">
-												<label for="calendarTitle">일정</label> <input type="text"
-													id="calendarTitle" name="calendarTitle"
+												<label for="calendarTitle">일정</label> 
+												<input type="text" id="calendarTitle" name="calendarTitle"
 													placeholder="일정을 입력하세요." class="form-control">
+												<form:errors path="calendarTitle"></form:errors>
 											</div>
 										</div>
 									</div>
@@ -414,24 +417,27 @@
 												<label for="calendarSubTitle">메모</label> <input
 													type="text" id="calendarSubTitle" name="calendarSubTitle"
 													placeholder="메모를 입력하세요." class="form-control">
+												<form:errors path="calendarSubTitle"></form:errors>
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-3">
 											<div class="form-group">
-												<label for="startDate">시작 날짜</label> <input type="date"
-													id="startDate" name="startDate" class="form-control">
+												<label for="startDate">시작 날짜</label> 
+												<input type="date" id="startDate" name="startDate" class="form-control"><br/>
+												<form:errors path="startDate"></form:errors>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-group">
 												<label for="endDate">끝 날짜</label> <input type="date"
 													id="endDate" name="endDate" class="form-control">
+												<form:errors path="endDate"></form:errors>
 											</div>
 										</div>
 									</div>
-								</form>
+								</form:form>
 							</div>
 						</div>
 					</div>
