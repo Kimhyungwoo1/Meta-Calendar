@@ -1,22 +1,25 @@
 @CHARSET "UTF-8";
 
+#menu li.Login, #menu li.Join {float:right;}
+
 ul {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	background-color: #999;
+	background-color: #3c3c3c;
 }
 
-ul li img {
-	padding: 6px 0 0 0;
+#menu li.icon {
+	float:right;
+	padding: 7px 0 0 0 ;
 }
 
 li {
 	float: left;
 }
 
-li a, .dropbtn {
+li a {
 	display: inline-block;
 	color: white;
 	text-align: center;
@@ -24,37 +27,8 @@ li a, .dropbtn {
 	text-decoration: none;
 }
 
-li a:hover, .dropdown:hover .dropbtn {
+#a {
 	background-color: red;
-}
-
-li.dropdown {
-	display: inline-block;
-}
-
-.dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f9f9f9;
-	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
-}
-
-.dropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
-	text-align: left;
-}
-
-.dropdown-content a:hover {
-	background-color: #f1f1f1
-}
-
-.dropdown:hover .dropdown-content {
-	display: block;
 }
 
 div.gallery {
@@ -80,18 +54,8 @@ div.desc {
 
 body {
 	width: 900px;
-	background-color: #f0fff0;
+	background-color: #F0FFF0;
 	margin: 0 auto;
 	padding: 5px 5px 5px 5px;
 }
 
-/* print-hide view-icon view-padding {
-	 width: 150px;
-    height: auto;
-} */
-
-/* body .i-kakao-m {
-    background-image: url(../images/icon_sprite_d.png);
-    background-position: -280px -386px;
-    width: 30px;
-    height: 30px; */
