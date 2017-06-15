@@ -1,29 +1,21 @@
 package com.ktds.metamong.calendar.vo;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class CalendarVO {
 
 	private String calendarId;
 	
-	@NotNull
+	@NotEmpty(message = "일정 이름을 입력하세요")
 	private String calendarTitle;
-	@NotNull
+	@NotEmpty(message = "상세 설명을 입력하세요")
 	private String calendarSubTitle;
-	@NotNull
+	@NotEmpty(message = "시작 날짜를 입력하세요")
 	private String startDate;
-	@NotNull
+	@NotEmpty(message = "종료 날짜를 입력하세요")
 	private String endDate;
+	
 	private String gps;
-	private String countYN;
-	
-	public String getCountYN() {
-		return countYN;
-	}
-	
-	public void setCountYN(String countYN) {
-		this.countYN = countYN;
-	}
 
 	public String getCalendarId() {
 		return calendarId;
