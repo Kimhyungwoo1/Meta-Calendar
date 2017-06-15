@@ -23,12 +23,16 @@
 					console.log("authObj = " + authObj);
 					var token = Kakao.Auth.getAccessToken();
 					console.log("token2 = " + token);
+					var db = {};
 					
 						if (token != null) {
 							Kakao.API.request({
 								url: '/v1/user/me',
 								success: function(response) {
-									console.log(JSON.stringify(response));
+									console.log(response);
+									/* db = response;
+									console.log(db);
+									return db; */
 								},
 								fail: function(error) {
 									console.log(JSON.stringify(error));
@@ -231,10 +235,10 @@
 				</div>
 			</div>
 			<script type="text/javascript">
-				var naver_id_login = new naver_id_login("xRetYdib8e35Loz5rIBq", "http://localhost:8080/meta_calendar/user/callback");
+				var naver_id_login = new naver_id_login("xRetYdib8e35Loz5rIBq", "http://localhost:8080/meta-calendar/user/callback");
 				var state = naver_id_login.getUniqState();
 				naver_id_login.setButton("green", 3,50);
-				naver_id_login.setDomain("http://localhost:8080/meta_calendar/user/naver/signIn");
+				naver_id_login.setDomain("http://localhost:8080/meta-calendar/user/naver/signIn");
 				naver_id_login.setState(state);
 				naver_id_login.setPopup();
 				naver_id_login.init_naver_id_login();

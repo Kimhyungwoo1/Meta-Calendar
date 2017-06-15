@@ -12,7 +12,6 @@
 										, CLNDR_STRT_DT 
 										, CLNDR_END_DT 
 										, CLNDR_CRT_DT
-										, COUNT_YN
 									)
 			VALUES					(
 										'CD-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(CLNDR_ID_SEQ.NEXTVAL, 6, '0')
@@ -21,7 +20,6 @@
 										, #{startDate}
 										, #{endDate}
 										, TO_CHAR(SYSDATE, 'YYYYMMDD')
-										, 'N'
 									)
 		</insert>
 		
