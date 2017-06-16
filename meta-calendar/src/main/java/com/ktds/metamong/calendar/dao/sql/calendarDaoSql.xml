@@ -17,8 +17,8 @@
 										'CD-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(CLNDR_ID_SEQ.NEXTVAL, 6, '0')
 										, #{calendarTitle}
 										, #{calendarSubTitle}
-										, #{startDate}
-										, #{endDate}
+										, #{startDateInt}
+										, #{endDateInt}
 										, TO_CHAR(SYSDATE, 'YYYYMMDD')
 									)
 		</insert>

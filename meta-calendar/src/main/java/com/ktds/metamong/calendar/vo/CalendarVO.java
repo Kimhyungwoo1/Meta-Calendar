@@ -6,13 +6,15 @@ public class CalendarVO {
 
 	private String calendarId;
 	
-	@NotEmpty(message = "ÀÏÁ¤ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä")
+	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
 	private String calendarTitle;
-	@NotEmpty(message = "»ó¼¼ ¼³¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä")
+	@NotEmpty(message = "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
 	private String calendarSubTitle;
-	@NotEmpty(message = "½ÃÀÛ ³¯Â¥¸¦ ÀÔ·ÂÇÏ¼¼¿ä")
+	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
+	private int startDateInt;
+	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
+	private int endDateInt;
 	private String startDate;
-	@NotEmpty(message = "Á¾·á ³¯Â¥¸¦ ÀÔ·ÂÇÏ¼¼¿ä")
 	private String endDate;
 	
 	private String gps;
@@ -63,6 +65,22 @@ public class CalendarVO {
 
 	public void setGps(String gps) {
 		this.gps = gps;
+	}
+
+	public int getStartDateInt() {
+		return startDateInt;
+	}
+
+	public void setStartDateInt(int startDateInt) {
+		this.startDateInt = startDateInt;
+	}
+
+	public int getEndDateInt() {
+		return endDateInt;
+	}
+
+	public void setEndDateInt(int endDateInt) {
+		this.endDateInt = endDateInt;
 	}
 
 }

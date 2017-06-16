@@ -29,9 +29,11 @@
 	var month = new Date().getMonth()+1;
 	var year = new Date().getFullYear();
 	var today = year + '/0' + month + '/0' + day; //오늘날짜 String형
-	
 	var yearMonth = year + (month < 10 ? "0" + month : month)
 	
+	// 달력 날짜나오기전 앞에 빈칸
+	var d1 = (year+(year-year%4)/4-(year-year%100)/100+(year-year%400)/400 
+		+month*2+(month*5-month*5%9)/9-(month<3?year%4||year%100==0&&year%400?2:3:4))%7; 
 	
 	$().ready(function() {
 		
@@ -43,29 +45,23 @@
 			
 			console.log(data);
 			
-			$(".rows").each(function(index, element) {
-				
-				var divDate = $(element).data('date');
-				
-				for ( i = 0; i < listLength; i++) {
-					var event = '<div class="event-index" >' + data[i].calendarTitle + '</div>'
+			for ( i = 0; i < listLength; i++) {
+			
+				$(".rows").each(function(index, element) {
 					
-					if ( divDate + " 00:00:00.0" == data[i].startDate) {
-						check = true;
-						console.log(element);
-						if (check == true) {
-							
-						}
+					var divDate = $(element).data('date');
+					var days = data[i].endDate - data[i].startDate +1 ;
+					var divSize = 136 * days;
+					var event = '<div class="event-index" data-days="' + days + '" style="width: '+divSize+'px;">' + data[i].calendarTitle + '</div>'
+					
+					if ( divDate == data[i].startDate) {
+						$(element).append(event);
 						
-						$(element).append(event);
 					} 
-					else if( divDate + " 00:00:00.0" == data[i].endDate ) {
-						$(element).append(event);
-						console.log(element);
-						check = false;
-					}
-				}
-			});
+						
+					
+				});
+			}
 		});
 		
 		$.post("<c:url value="/goal/list"/> ", {}, function(data) {
@@ -240,11 +236,8 @@
 	}
 
 	function getDayText(year, month){
-		//
+
 		var dayTd = [];
-		// 날짜나오기전 앞에 빈칸
-		var d1 = (year+(year-year%4)/4-(year-year%100)/100+(year-year%400)/400 
-			+month*2+(month*5-month*5%9)/9-(month<3?year%4||year%100==0&&year%400?2:3:4))%7; 
 		for (i = 0; i < 42; i++) { 
 			if (i%7==0){
 				dayTd += '</tr>\n<tr>'; 
@@ -253,13 +246,17 @@
 				dayTd += '<td> </td>'; 
 			}else{
 				dayTd += '<td' + (i%7 ? '' : ' style="color:red; " ') + ' >'
-						+ '<div data-date="' + year + '-' + month + '-' + ((i+1-d1) < 10 ? ("0" + (i+1-d1)) : (i+1-d1)) + '" class="rows">'
-						+ '<div class="day-number" style=" padding: 6px; border: 6px; height: 50%; width: 120px">' + (i+1-d1) + '</div>'
-						+ '<div class="day-bar"></div>'
-						+ '</div>' 
-						+ '</td>'; 
+				if ( (i+1-d1) == 1 ){
+					dayTd += '<div data-date="' + year + month + ((i+1-d1) < 10 ? ("0" + (i+1-d1)) : (i+1-d1)) + '" class="rows" >'
+				}else {
+					dayTd += '<div data-date="' + year + month + ((i+1-d1) < 10 ? ("0" + (i+1-d1)) : (i+1-d1)) + '" class="rows">'
+				}
+				dayTd += '<div class="day-number" style=" padding: 6px; border: 6px; height: 50%; width: 120px">' + (i+1-d1) + '</div>'
+				dayTd += '<div class="day-bar"></div>'
+				dayTd += '</div>' 
+				dayTd += '</td>'; 
 			}
-		} 
+		}
 		return dayTd;
 	}
 	//dayArray를 tag로 감싸서 text로 만듬
@@ -281,7 +278,6 @@
 	}
 	
 	//날짜가 들어있는 array를 return
-	
 	function getDayArray(year, month){
 		var arDay = [];
 		var d1 = (year+(year-year%4)/4-(year-year%100)/100+(year-year%400)/400

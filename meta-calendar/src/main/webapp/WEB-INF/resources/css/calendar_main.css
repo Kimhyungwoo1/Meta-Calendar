@@ -43,7 +43,7 @@ body {
 	font-weight: 500 !important;
 	padding: 5px 0px !important;
 	margin-bottom: 2px;
-	width: 110px;
+	position: absolute;
 	z-index: 2;
 }
 
