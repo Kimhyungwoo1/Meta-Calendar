@@ -30,9 +30,34 @@
 								url: '/v1/user/me',
 								success: function(response) {
 									console.log(response);
-									/* db = response;
-									console.log(db);
-									return db; */
+									$('#custom-login-btn').data(response)
+									/* alert(response.properties.nickname+'님 환영합니다.');
+									alert(response.properties.kaccount_email);
+									alert(response.properties.id);
+									alert(response.properties.profile_image);
+									alert(response.properties.thumbnail_image); */
+									var userName = response.properties.nickname;
+									var email = response.kaccount_email;
+									var userId = response.id;
+									var loginProfileImage = response.properties.profile_image;
+									var loginThumbnailImage = response.properties.thumbnail_image;
+									var user = {
+										'userName' : userName
+										, 'email' : email
+										, 'userId' : userId
+										, 'loginProfileImage' : loginProfileImage
+										, 'loginThumbnailImage' : loginThumbnailImage
+									};
+									$.ajax({
+										type: 'POST',
+										url: '<c:url value="/user/kakao/loginUser"/>',
+										contentType: 'application/json; charset=UTF-8',
+										data: JSON.stringify(user)
+									}).done(function(user){
+										alert('user.userName = ' + user.userName);
+									});
+									/* var param = $(this).serializeArray();
+									var test = $.param(param); */
 								},
 								fail: function(error) {
 									console.log(JSON.stringify(error));
