@@ -64,5 +64,10 @@ public class UserVO {
 	public void setLoginType(String loginType) {
 		this.loginType = loginType;
 	}
+	
+	@Override
+	public String toString() {
+		return userName + "," + userId + "," + email;
+	}
 
 }

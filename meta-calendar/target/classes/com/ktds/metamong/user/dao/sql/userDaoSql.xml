@@ -43,6 +43,16 @@
 			<include refid="CommonDao.PAGING_FOOTER" />
 		</select>
 		
+		<select id="getLoginOneUser" parameterType="string" resultMap="userMap">
+			SELECT	USR_ID
+					, USR_NM
+					, USR_PWD
+					, EMAIL
+					, USR_CRT_DT
+			FROM	USR
+			WHERE	USR_ID = #{userId}
+		</select>
+		
 		<select id="selectAllUserListCount" parameterType="UserSearchVO" resultType="_int">
 			SELECT	COUNT(1)
 			FROM		USR

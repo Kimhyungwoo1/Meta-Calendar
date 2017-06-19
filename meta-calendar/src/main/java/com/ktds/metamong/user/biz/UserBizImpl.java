@@ -55,5 +55,10 @@ public class UserBizImpl implements UserBiz {
 	public boolean updateUser(UserVO userVO) {
 		return userDao.modifyUser(userVO) > 0;
 	}
+
+	@Override
+	public UserVO getLoginOneUser(String userId) {
+		return userDao.getLoginOneUser(userId);
+	}
 	
 }

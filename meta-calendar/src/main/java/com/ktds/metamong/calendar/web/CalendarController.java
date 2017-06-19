@@ -59,19 +59,28 @@ public class CalendarController {
 	}
 
 	@RequestMapping(value = "/cal/write", method = RequestMethod.POST)
-	public String doWriteCalendar(@Valid @ModelAttribute("writeForm") CalendarVO calendarVO, 
-			Errors errors, HttpServletResponse response, HttpServletRequest request) {
+	public String doWriteCalendar(CalendarVO calendarVO, 
+			HttpServletResponse response, HttpServletRequest request) {
 
-		if (errors.hasErrors()) {
-			return "calendar/calendar_main";
-		}
+		String startDate = calendarVO.getStartDate();
+		String endDate = calendarVO.getEndDate();
+		
+		String[] spiltStart = startDate.split("-");
+		String[] spiltEnd = endDate.split("-");
+		
+		String startDatePartsAdd = spiltStart[0] + spiltStart[1] + spiltStart[2];
+		String endDatePartsAdd = spiltEnd[0] + spiltEnd[1] + spiltEnd[2];
+		
+		int startDateInt = Integer.parseInt(startDatePartsAdd);
+		int endDateInt = Integer.parseInt(endDatePartsAdd);
 
 		CalendarVO calendar = new CalendarVO();
 
 		calendar.setCalendarTitle(calendarVO.getCalendarTitle());
 		calendar.setCalendarSubTitle(calendarVO.getCalendarSubTitle());
-		calendar.setStartDate(calendarVO.getStartDate());
-		calendar.setEndDate(calendarVO.getEndDate());
+		calendar.setStartDateInt(startDateInt);
+		calendar.setEndDateInt(endDateInt);
+		
 
 		boolean isSuccess = calendarService.addNewCalendar(calendar);
 
@@ -144,11 +153,35 @@ public class CalendarController {
 	}
 
 	@RequestMapping(value = "/cal/test", method = RequestMethod.POST)
-	public String doTestPage(
-			@Valid @ModelAttribute("valiTestForm") CalendarVO calendarVO,
-			Errors errors, HttpServletResponse response, HttpServletRequest request) {
+	public String doTestPage(CalendarVO calendarVO,
+			 HttpServletResponse response, HttpServletRequest request) {
 
-		return "redirect:/cal/test";
+		String startDate = calendarVO.getStartDate();
+		String endDate = calendarVO.getEndDate();
+		
+		String[] spiltStart = startDate.split("-");
+		String[] spiltEnd = endDate.split("-");
+		
+		String startDatePartsAdd = spiltStart[0] + spiltStart[1] + spiltStart[2];
+		String endDatePartsAdd = spiltEnd[0] + spiltEnd[1] + spiltEnd[2];
+		
+		int startDateInt = Integer.parseInt(startDatePartsAdd);
+		int endDateInt = Integer.parseInt(endDatePartsAdd);
+		
+		System.out.println(spiltStart[0]);
+		System.out.println(spiltStart[1]);
+		System.out.println(spiltStart[2]);
+		System.out.println(spiltEnd[0]);
+		System.out.println(spiltEnd[1]);
+		System.out.println(spiltEnd[2]);
+		System.out.println(startDateInt);
+		System.out.println(endDateInt);
+		
+		
+		logger.info("startDate : " + calendarVO.getStartDate());
+		logger.info("endDate : " + calendarVO.getEndDate());
+		
+		return "";
 
 	}
 
@@ -213,7 +246,6 @@ public class CalendarController {
 
 	@RequestMapping("/")
 	public String mainPage(){
-		
 		return "common/mainPage";
 	}
 

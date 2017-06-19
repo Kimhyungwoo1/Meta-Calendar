@@ -23,21 +23,17 @@ $().ready(function(){
 </head>
 <body>
 
-	<form:form commandName="valiTestForm">
+	<form id="valiTestForm">
 		<input type="text" name="calendarTitle" placeholder="일정 이름" /><br/>
-		<form:errors path="calendarTitle"></form:errors><br/>
 		
 		<input type="text" name="calendarSubTitle" placeholder="일정 요약"/><br/>
-		<form:errors path="calendarSubTitle"></form:errors><br/>
 		
 		<input type="date" name="startDate"/><br/>
-		<form:errors path="startDate"></form:errors><br/>
 		
 		<input type="date" name="endDate"/><br/>
-		<form:errors path="endDate"></form:errors><br/>
 		
 		<input type="button" value="등록" />
-	</form:form>
+	</form>
 
 </body>
 </html>

@@ -27,7 +27,6 @@ public class NaverLoginController {
 
 	@RequestMapping("/user/naver/savetoken")
 	public void saveToken(@RequestParam String accessToken, HttpSession session) {
-		
 		NaverUserVO naverUserVO = (NaverUserVO) session.getAttribute("_USER_");
 		if ( naverUserVO == null ) {
 			naverUserVO = new NaverUserVO();
