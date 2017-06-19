@@ -34,5 +34,10 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao{
 		return getSqlSession().update(US + ".modifyUser", userVO);
 	}
 
+	@Override
+	public UserVO getLoginOneUser(String userId) {
+		return getSqlSession().selectOne(US + ".getLoginOneUser", userId);
+	}
+
 	
 }

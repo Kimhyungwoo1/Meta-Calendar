@@ -17,6 +17,8 @@ public interface UserDao {
 	
 	public UserVO selectOneUser(UserVO userVO);
 	
+	public UserVO getLoginOneUser(String userId);
+	
 	public int modifyUser(UserVO userVO);
 	
 }

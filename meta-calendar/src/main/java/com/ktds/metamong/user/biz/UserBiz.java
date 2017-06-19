@@ -13,5 +13,7 @@ public interface UserBiz {
 	public UserVO getOneUser(UserVO userVO);
 	
 	public boolean updateUser(UserVO userVO);
+	
+	public UserVO getLoginOneUser(String userId);
 
 }

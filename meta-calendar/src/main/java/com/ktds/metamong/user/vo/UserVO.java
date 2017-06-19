@@ -67,7 +67,7 @@ public class UserVO {
 	
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", userId=" + userId + ", email=" + email + "]";
+		return userName + "," + userId + "," + email;
 	}
 
 }

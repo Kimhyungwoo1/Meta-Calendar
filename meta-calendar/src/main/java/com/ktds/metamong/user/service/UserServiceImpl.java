@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
 		return userBiz.updateUser(userVO);
 	}
 
+	@Override
+	public UserVO getLoginOneUser(String userId) {
+		return userBiz.getLoginOneUser(userId);
+	}
+
 }

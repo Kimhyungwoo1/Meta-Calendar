@@ -32,21 +32,22 @@
 									console.log(response);
 									$('#custom-login-btn').data(response)
 									/* alert(response.properties.nickname+'님 환영합니다.');
-									alert(response.properties.kaccount_email);
-									alert(response.properties.id);
+									alert(response.kaccount_email);
+									alert(response.id);
 									alert(response.properties.profile_image);
 									alert(response.properties.thumbnail_image); */
+									
 									var userName = response.properties.nickname;
 									var email = response.kaccount_email;
 									var userId = response.id;
 									var loginProfileImage = response.properties.profile_image;
 									var loginThumbnailImage = response.properties.thumbnail_image;
 									var user = {
-										'userName' : userName
-										, 'email' : email
-										, 'userId' : userId
-										, 'loginProfileImage' : loginProfileImage
-										, 'loginThumbnailImage' : loginThumbnailImage
+										userName : userName
+										, email : email
+										, userId : userId
+										, loginProfileImage : loginProfileImage
+										, loginThumbnailImage : loginThumbnailImage
 									};
 									$.ajax({
 										type: 'POST',
@@ -56,6 +57,15 @@
 									}).done(function(user){
 										alert('user.userName = ' + user.userName);
 									});
+									
+									$.ajax({
+										type: 'GET',
+										url: '<c:url value="/user/kakao/inputPassword"/>',
+										async: false,
+									}).done(function(response){
+										console.log("비밀번호 입력하는 곳으로 갔니?");
+										alert('user.userPassword = ' + response.userPassword);
+									});
 									/* var param = $(this).serializeArray();
 									var test = $.param(param); */
 								},
@@ -63,6 +73,8 @@
 									console.log(JSON.stringify(error));
 								}
 							});
+							
+							
 						}
 						
 						/* $.post("<c:url value="/user/kakao/session" />", {
@@ -245,7 +257,7 @@
 							<img style="width: 235px;" src="<c:url value="/static/img/btn_google_signin_light_normal_web@2x.png"/> ">
 						</a>
 						<div id="naver_id_login"></div>
-						<a id="custom-login-btn" href="javascript:loginWithKakao()"> 
+						<a id="custom-login-btn" href="<c:url value="javascript:loginWithKakao()"/>"> 
 							<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="235px;" />
 						</a>
 						<!-- 
