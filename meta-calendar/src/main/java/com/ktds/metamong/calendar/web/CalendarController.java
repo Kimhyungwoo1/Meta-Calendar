@@ -246,7 +246,7 @@ public class CalendarController {
 
 	@RequestMapping("/")
 	public String mainPage(){
-		return "common/test";
+		return "common/mainPage";
 	}
 
 }

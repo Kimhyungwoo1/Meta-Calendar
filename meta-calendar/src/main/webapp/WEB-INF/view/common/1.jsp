@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Hokey Poke</title>
+<title>메타메타~~</title>
 <meta name="viewport" content="initial-scale=1">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/static/css/1.css"/>">

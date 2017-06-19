@@ -75,7 +75,14 @@ h1 {letter-spacing: 6px}
 
 <!-- Header -->
 <header class="w3-panel w3-center w3-opacity" style="padding:25px 16px">
-  
+  		<a href=""><img src="http://amina.co.kr/img/sns/facebook.png" alt="Facebook"
+					style="width: 20px;"> </a>
+		<a href="" ><img src="http://amina.co.kr/img/sns/googleplus.png" alt="GooglePlus"
+					style="width: 20px;"> </a>
+		<a href="" ><img src="https://developers.kakao.com/assets/img/features/service/p_talk.png"
+					alt="KakaoStory" style="width: 20px;"> </a>
+		<a href="" ><img src="http://amina.co.kr/img/sns/naver.png" alt="Naver"
+					style="width: 20px;"></a>
   <div class="w3-padding-32">
     <div class="w3-bar w3-border">
       <a href="" class="w3-bar-item w3-button w3-light-grey">Home</a>
@@ -84,14 +91,7 @@ h1 {letter-spacing: 6px}
       <button type="button" class="w3-bar-item w3-button" data-toggle="modal" data-target="#loginmodal">LogIn</button>
      </div>
   </div>
-				<a href=""><img src="http://amina.co.kr/img/sns/facebook.png" alt="Facebook"
-					style="width: 20px;"> </a>
-				<a href="" ><img src="http://amina.co.kr/img/sns/googleplus.png" alt="GooglePlus"
-					style="width: 20px;"> </a>
-				<a href="" ><img src="https://developers.kakao.com/assets/img/features/service/p_talk.png"
-					alt="KakaoStory" style="width: 20px;"> </a>
-				<a href="" ><img src="http://amina.co.kr/img/sns/naver.png" alt="Naver"
-					style="width: 20px;"></a>
+		
   
   
   
