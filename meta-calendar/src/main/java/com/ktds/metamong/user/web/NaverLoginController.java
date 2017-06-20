@@ -68,8 +68,6 @@ public class NaverLoginController {
 			}
 			String inputLine;
 			StringBuffer res = new StringBuffer();
-//			String userBuffer = res.toString();
-//			String[] spiltUserInfo = startDate.split("-");
 			while ((inputLine = br.readLine()) != null) {
 				res.append(inputLine);
 			}
