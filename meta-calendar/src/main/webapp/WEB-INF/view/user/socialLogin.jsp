@@ -111,7 +111,8 @@
 							token : token
 						}, function(response) {
 							if (response == "ok") {
-								location.reload();
+								location.href("<c:url value="/cal/list"/>");
+								//location.reload();
 							}
 						})
 				},

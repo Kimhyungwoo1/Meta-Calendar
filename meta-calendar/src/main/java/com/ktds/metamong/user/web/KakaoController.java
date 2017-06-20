@@ -56,11 +56,13 @@ public class KakaoController extends JDBCAppender {
 			 System.out.println("insertSocialUser = " + insertSocialUser);
 			 
 			 if ( insertSocialUser ) {
+				System.out.println("aa");
 				HttpSession session = request.getSession();
 				session.setAttribute("_USER_", insertSocialUser);
 				return "redirect:/cal/list";
 			 }
 			 else {
+				System.out.println("bb");
 				return "redirect:/main";
 			 }
 			 /*try {
@@ -78,7 +80,7 @@ public class KakaoController extends JDBCAppender {
 				} catch (IOException e) {
 				}*/
 		 } else {
-			System.out.println("aa");
+			System.out.println("cc");
 			socialUserVO.setUserId(socialUserVO.getUserId());
 			socialUserVO.setUserName(socialUserVO.getUserName());
 			socialUserVO.setEmail(socialUserVO.getEmail());
@@ -94,7 +96,7 @@ public class KakaoController extends JDBCAppender {
 	
 	@RequestMapping(value = "/user/kakao/passwordInfo", method = RequestMethod.POST)
 	public String passwordInfo(SocialUserVO socialUser) {
-		System.out.println("bb");
+		System.out.println("dd");
 		UserVO userVO = new UserVO();
 		userVO.setUserPassword(userVO.getUserPassword());
 		System.out.println("passwordInfo : SocialUser = " + socialUser);
@@ -105,13 +107,14 @@ public class KakaoController extends JDBCAppender {
 	
 	@RequestMapping(value="/user/kakao/inputPassword", method=RequestMethod.GET)
 	public String viewPasswordInfoPage() {
+		System.out.println("ee");
 		return "user/passwordInfo";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/user/kakao/inputPassword", method=RequestMethod.POST)
 	public String doInputPassword(@RequestBody SocialUserVO socialUser, @RequestParam String password, String token, HttpSession session, HttpServletResponse response){
-		System.out.println("aa");
+		System.out.println("ff");
 		UserVO userVO = new UserVO();
 		userVO.setUserId(socialUser.getUserId());
 		userVO.setUserName(socialUser.getUserName());
@@ -149,7 +152,7 @@ public class KakaoController extends JDBCAppender {
 	
 	@RequestMapping(value = "/user/kakao/session", method = RequestMethod.POST)
 	public void actionKakaobuildSession(@RequestParam String token, HttpSession session, HttpServletResponse response) {
-
+		System.out.println("gg");
 		KakaoUserVO userVO = (KakaoUserVO) session.getAttribute("_USER_");
 		if (userVO == null) {
 			userVO = new KakaoUserVO();

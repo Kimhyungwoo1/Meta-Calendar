@@ -27,7 +27,7 @@ public class NaverLoginController {
 	}
 
 	@RequestMapping("/user/naver/savetoken")
-	public void saveToken(@RequestParam String accessToken, HttpSession session) {
+	public String saveToken(@RequestParam String accessToken, HttpSession session) {
 		NaverUserVO naverUserVO = (NaverUserVO) session.getAttribute("_USER_");
 		if ( naverUserVO == null ) {
 			naverUserVO = new NaverUserVO();
@@ -39,9 +39,11 @@ public class NaverLoginController {
 		naverUserVO.setAccessToken(accessToken);
 		session.setAttribute("_USER_", naverUserVO);
 		
-		if (naverUserVO != null) {
+		/*if (naverUserVO != null) {
 			naverUserInfo(session);
-		}
+		}*/
+		
+		return "redirect:/user/naver/userInfo";
 	}
 
 	@RequestMapping(value = "/user/naver/userInfo", method = RequestMethod.POST)
