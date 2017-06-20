@@ -37,7 +37,7 @@
 	<bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters"> 
 		<!-- <property name="scope" value="https://www.googleapis.com/auth/plus.me"/> --> 
 		<property name="scope" value="https://www.googleapis.com/auth/plus.login"/>
-		<property name="redirectUri" value="http://localhost:8080/meta_calendar/user/google/account"/> 
+		<property name="redirectUri" value="http://localhost:8080/meta-calendar/user/google/account"/> 
 	</bean>
 	
 	<bean id="userController" class="com.ktds.metamong.user.web.UserController">

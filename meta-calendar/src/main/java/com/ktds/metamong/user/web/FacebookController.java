@@ -37,9 +37,4 @@ public class FacebookController {
 		return "redirect:/main";
 	}
 	
-	@RequestMapping("/user/main")
-	public String viewMainPage() {
-		return "redirect:/main";
-	}
-	
 }
