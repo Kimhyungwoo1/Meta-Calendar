@@ -52,31 +52,29 @@ public class KakaoController extends JDBCAppender {
 		response.equals(userVO.getEmail());
 
 	}*/
-	
-	@RequestMapping(value = "/user/kakao/passwordInfo", method = RequestMethod.POST)
-	public String passwordInfo(UserVO user) {
-		System.out.println("bb");
-		user = new UserVO();
-		user.setUserPassword(user.getUserPassword());
-		System.out.println("passwordInfo : user = " + user);
-		System.out.println("userPassword = " + user.getUserPassword());
-//		return "";
-		return "redirect:/user/kakao/loginUser";
-	}
+
 	
 	@ResponseBody
 	@RequestMapping(value = "/user/kakao/loginUser", method = RequestMethod.POST)
-	public String registerPost(@RequestBody UserVO user) {
+	public String registerPost(@RequestBody UserVO user, HttpServletResponse response) {
 		UserVO userVO = new UserVO();
 
-		//유저 정보 확인 
+		//�쑀�� �젙蹂� �솗�씤 
 		UserVO userInfo = userService.getLoginOneUser(user.getUserId());
 		System.out.println(userInfo);
 		
-//		최초 로그인
+//		理쒖큹 濡쒓렇�씤
 		 if(userInfo == null) {
-			 System.out.println("이동");
-		 	return "recirect:/user/kakao/inputPassword";
+			try {
+				PrintWriter write = response.getWriter();
+				write.write("fail");
+				write.flush();
+				write.close();
+			} catch (IOException e) {
+			}
+			
+			return "";
+			
 		 } else {
 			user.setUserPassword(userInfo.getUserPassword());
 		 
@@ -91,7 +89,8 @@ public class KakaoController extends JDBCAppender {
 			System.out.println("email = " + user.getEmail());
 			System.out.println("password = " + userVO.getUserPassword());
 		
-			return "redirect:/cal/list";
+			return "redirect:/cal/main";
+					
 		 }
 //		userService.addNewUser(userVO);
 		
@@ -140,6 +139,17 @@ public class KakaoController extends JDBCAppender {
 		return "user/passwordInfo";
 	}
 	
+	@RequestMapping(value = "/user/kakao/passwordInfo", method = RequestMethod.POST)
+	public String passwordInfo(UserVO user) {
+		System.out.println("bb");
+		user = new UserVO();
+		user.setUserPassword(user.getUserPassword());
+		System.out.println("passwordInfo : user = " + user);
+		System.out.println("userPassword = " + user.getUserPassword());
+//		return "";
+		return "redirect:/user/kakao/loginUser";
+	}
+	
 	@RequestMapping(value="/user/kakao/inputPassword", method=RequestMethod.POST)
 	public String doInputPassword(@RequestBody UserVO user, @RequestParam String password, String token, HttpSession session){
 		System.out.println("aa");
@@ -157,7 +167,7 @@ public class KakaoController extends JDBCAppender {
 		
 		userService.addNewUser(user);
 		
-		// 세션처리
+		// �꽭�뀡泥섎━
 		KakaoUserVO kakaoUser = (KakaoUserVO) session.getAttribute("_USER_");
 		if (kakaoUser == null) {
 			kakaoUser = new KakaoUserVO();
@@ -169,6 +179,7 @@ public class KakaoController extends JDBCAppender {
 		
 		return "redirect:/cal/list";
 	}
+
 	
 
 	@RequestMapping(value = "/user/kakao/session", method = RequestMethod.POST)

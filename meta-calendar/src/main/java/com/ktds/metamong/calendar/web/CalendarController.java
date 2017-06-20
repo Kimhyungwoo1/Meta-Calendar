@@ -248,5 +248,10 @@ public class CalendarController {
 	public String mainPage(){
 		return "common/mainPage";
 	}
+	
+	@RequestMapping(value = "/cal/map", method = RequestMethod.GET)
+	public String viewMapAndDirection() {
+		return "calendar/map";
+	}
 
 }

@@ -49,23 +49,27 @@
 										, loginProfileImage : loginProfileImage
 										, loginThumbnailImage : loginThumbnailImage
 									};
+								
 									$.ajax({
 										type: 'POST',
 										url: '<c:url value="/user/kakao/loginUser"/>',
 										contentType: 'application/json; charset=UTF-8',
 										data: JSON.stringify(user)
-									}).done(function(user){
-										alert('user.userName = ' + user.userName);
-									});
+									}).done(function(response){
+										if(response == "fail"){
+											
+											location.href="/meta-calendar/user/kakao/inputPassword";
+										} 
+									}); 
 									
-									$.ajax({
+/* 									$.ajax({
 										type: 'GET',
 										url: '<c:url value="/user/kakao/inputPassword"/>',
 										async: false,
 									}).done(function(response){
 										console.log("비밀번호 입력하는 곳으로 갔니?");
 										alert('user.userPassword = ' + response.userPassword);
-									});
+									}); */
 									/* var param = $(this).serializeArray();
 									var test = $.param(param); */
 								},
