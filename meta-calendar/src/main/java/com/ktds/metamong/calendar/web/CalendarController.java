@@ -239,4 +239,8 @@ public class CalendarController {
 	public String viewMapAndDirection() {
 		return "calendar/map";
 	}
+	@RequestMapping(value = "/cal/test_map", method = RequestMethod.GET)
+	public String viewMap() {
+		return "calendar/test_site";
+	}
 }
