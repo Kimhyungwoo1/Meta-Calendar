@@ -1,5 +1,6 @@
 package com.ktds.metamong.user.biz;
 
+import com.ktds.metamong.user.vo.SocialUserVO;
 import com.ktds.metamong.user.vo.UserListVO;
 import com.ktds.metamong.user.vo.UserSearchVO;
 import com.ktds.metamong.user.vo.UserVO;
@@ -15,5 +16,8 @@ public interface UserBiz {
 	public boolean updateUser(UserVO userVO);
 	
 	public UserVO getLoginOneUser(String userId);
+	
+	public SocialUserVO selectSocialOneUser(SocialUserVO socialUserVO);
 
+	public boolean addSocialNewUser(SocialUserVO socialUserVO);
 }
