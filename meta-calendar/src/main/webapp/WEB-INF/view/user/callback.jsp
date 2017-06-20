@@ -29,7 +29,7 @@
 		console.log(naver_id_login.getProfileData('nickname'));
 		console.log(naver_id_login.getProfileData('age'));
 	  
-	    opener.document.location.href="<c:url value="/main"/>";
+	    opener.document.location.href="<c:url value="/cal/list"/>"; //main
 	    self.close();
 	}
 </script>
