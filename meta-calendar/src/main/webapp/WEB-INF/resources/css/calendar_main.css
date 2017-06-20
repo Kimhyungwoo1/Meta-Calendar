@@ -46,6 +46,16 @@ body {
 	position: absolute;
 	z-index: 2;
 }
+.event-indexs {
+	background: #03a9f3 !important;
+	color: #FFF !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	padding: 5px 0px !important;
+	margin-bottom: 2px;
+	position: absolute;
+	z-index: 2;
+}
 
 #left {
 	width: 75%;

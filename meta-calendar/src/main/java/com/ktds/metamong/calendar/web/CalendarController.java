@@ -2,6 +2,7 @@ package com.ktds.metamong.calendar.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -131,6 +132,21 @@ public class CalendarController {
 
 	@RequestMapping(value = "/cal/update", method = RequestMethod.POST)
 	public void ActionUpdate(HttpServletResponse response, CalendarVO calendarVO) {
+		
+		String startDate = calendarVO.getStartDate();
+		String endDate = calendarVO.getEndDate();
+		
+		String[] spiltStart = startDate.split("-");
+		String[] spiltEnd = endDate.split("-");
+		
+		String startDatePartsAdd = spiltStart[0] + spiltStart[1] + spiltStart[2];
+		String endDatePartsAdd = spiltEnd[0] + spiltEnd[1] + spiltEnd[2];
+		
+		int startDateInt = Integer.parseInt(startDatePartsAdd);
+		int endDateInt = Integer.parseInt(endDatePartsAdd);
+		
+		calendarVO.setStartDateInt(startDateInt);
+		calendarVO.setEndDateInt(endDateInt);
 
 		boolean calendarUpdate = calendarService.updateCalendar(calendarVO);
 
@@ -145,46 +161,20 @@ public class CalendarController {
 			}
 		}
 	}
-
-	// 기능 테스트를 위한 페이지 - 규동
+	
 	@RequestMapping(value = "/cal/test", method = RequestMethod.GET)
-	public String testPage() {
+	public String doTestPage() {
 		return "calendar/test";
+
 	}
-
+	// 기능 테스트를 위한 페이지 - 규동
+	@ResponseBody
 	@RequestMapping(value = "/cal/test", method = RequestMethod.POST)
-	public String doTestPage(CalendarVO calendarVO,
-			 HttpServletResponse response, HttpServletRequest request) {
-
-		String startDate = calendarVO.getStartDate();
-		String endDate = calendarVO.getEndDate();
-		
-		String[] spiltStart = startDate.split("-");
-		String[] spiltEnd = endDate.split("-");
-		
-		String startDatePartsAdd = spiltStart[0] + spiltStart[1] + spiltStart[2];
-		String endDatePartsAdd = spiltEnd[0] + spiltEnd[1] + spiltEnd[2];
-		
-		int startDateInt = Integer.parseInt(startDatePartsAdd);
-		int endDateInt = Integer.parseInt(endDatePartsAdd);
-		
-		System.out.println(spiltStart[0]);
-		System.out.println(spiltStart[1]);
-		System.out.println(spiltStart[2]);
-		System.out.println(spiltEnd[0]);
-		System.out.println(spiltEnd[1]);
-		System.out.println(spiltEnd[2]);
-		System.out.println(startDateInt);
-		System.out.println(endDateInt);
-		
-		
-		logger.info("startDate : " + calendarVO.getStartDate());
-		logger.info("endDate : " + calendarVO.getEndDate());
+	public String testPage(HttpServletResponse response, String year, String month) {
 		
 		return "";
-
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/cal/dday", method = RequestMethod.POST)
 	public List<CalendarVO> alertTest() {
@@ -248,5 +238,6 @@ public class CalendarController {
 	public String mainPage(){
 		return "common/mainPage";
 	}
-
+	
+	
 }

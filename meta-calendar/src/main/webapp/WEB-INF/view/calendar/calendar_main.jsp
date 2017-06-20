@@ -31,10 +31,6 @@
 	var today = year + '/0' + month + '/0' + day; //오늘날짜 String형
 	var yearMonth = year + (month < 10 ? "0" + month : month)
 	
-	// 달력 날짜나오기전 앞에 빈칸
-	var d1 = (year+(year-year%4)/4-(year-year%100)/100+(year-year%400)/400 
-		+month*2+(month*5-month*5%9)/9-(month<3?year%4||year%100==0&&year%400?2:3:4))%7; 
-	
 	$().ready(function() {
 		
 		showCalendar(year, month)
@@ -43,23 +39,116 @@
 			var check = false
 			var listLength = data.length; 
 			
-			console.log(data);
-			
+			var startDate = 0;
+			var endDate = 0;
+				
 			for ( i = 0; i < listLength; i++) {
-			
 				$(".rows").each(function(index, element) {
-					
 					var divDate = $(element).data('date');
+					
 					var days = data[i].endDate - data[i].startDate +1 ;
-					var divSize = 136 * days;
-					var event = '<div class="event-index" data-days="' + days + '" style="width: '+divSize+'px;">' + data[i].calendarTitle + '</div>'
+					var divSize = 132 * days;
 					
-					if ( divDate == data[i].startDate) {
-						$(element).append(event);
+					if ( divDate == data[i].startDate ) {
+						var event = '<div class="event-index" data-days="' + days + '" style="width: '+divSize+'px;">' + data[i].calendarTitle + '</div>';
+						$(element).find(".div-bar").append(event);
+						//사용자 일정 시작 날짜
+						var userStartDay = $(this).data('day')
+						console.log("userStartDay:" + userStartDay);
+						//주의 시작하는 날짜
+						var startDay = $(".event-index").closest("tr").children(".start").data("tdday");
+						console.log("startDay:" + startDay);
+						//주의 끝나는 날짜
+						var endDay = $(".event-index").closest("tr").children(".end").data("tdday");
+						console.log("endDay:" + endDay);
+						// 계산 숫자
+						var number = (endDay - startDay + 1) + days;
+						console.log("number:" + number);
+						// 계산하고 남은 일수
+						var remainDate = days - ((endDay - userStartDay) + 1);
+						console.log("remainDate:" + remainDate);
+						// 잘라야 하는 divsize 수 
+						var cutDivDays = days - remainDate
+						console.log("cutDivDays:" + cutDivDays);
+						// 나와야하는 divsize
+						var divSize = 135 * cutDivDays;
+						console.log("divSize:" + divSize);
 						
-					} 
+						if ( remainDate > 0 ) {
+							$(element).find(".div-bar").html("");
+							var event = '<div class="event-index" data-days="' + cutDivDays + '" style="width: '+divSize+'px;">' + data[i].calendarTitle + '</div>';
+							$(element).find(".div-bar").append(event);
+						}
 						
-					
+						if ( number > 7 ) {
+							
+							var twoWeekStartDay = endDay + 1;
+							console.log("twoWeekStartDay:" + twoWeekStartDay);
+							var twoWeekEndDay = twoWeekStartDay + 6;
+							console.log("twoWeekEndDay:" + twoWeekEndDay);
+							var twoWeekNumber = (twoWeekEndDay - twoWeekStartDay + 1) + remainDate;
+							console.log("twoWeekNumber:" + twoWeekNumber);
+							var twoWeekRemainDate = remainDate - ((twoWeekEndDay - twoWeekStartDay) + 1);
+							console.log("twoWeekRemainDate:" + twoWeekRemainDate);
+							if (twoWeekRemainDate < 0) {
+								twoWeekRemainDate = 0;
+							}
+							console.log("aatwoWeekRemainDate:" + twoWeekRemainDate);
+							var twoWeekCutDivDay = remainDate - twoWeekRemainDate;
+							console.log("twoWeekCutDivDay:" + twoWeekCutDivDay);
+							var twoWeekDivSize = 135 * twoWeekCutDivDay;
+							console.log("twoWeekDivSize:" + twoWeekDivSize);
+							
+							var twoWeekEvent = '<div class="event-index" data-days="' + twoWeekRemainDate + '" style="width: '+twoWeekDivSize+'px;">' + data[i].calendarTitle + '</div>';
+							$('[data-tdday="' + twoWeekStartDay + '"]').children().find(".div-bar").append(twoWeekEvent);
+							
+							if ( twoWeekNumber > 7) {
+								
+								var threeWeekStartDay = twoWeekEndDay + 1;
+								var threeWeekEndDay = threeWeekStartDay + 6;
+								var threeWeekNumber = (threeWeekEndDay - threeWeekStartDay + 1) + twoWeekRemainDate;
+								var threeWeekRemainDate = twoWeekRemainDate - ((threeWeekEndDay - threeWeekStartDay) + 1);
+								if (threeWeekRemainDate < 0) {
+									threeWeekRemainDate = 0;
+								}
+								var threeWeekCutDivDay = twoWeekRemainDate - threeWeekRemainDate;
+								var threeWeekDivSize = 135 * threeWeekCutDivDay;
+								
+								var event = '<div class="event-index" data-days="' + threeWeekRemainDate + '" style="width: '+threeWeekDivSize+'px;">' + data[i].calendarTitle + '</div>';
+								$('[data-tdday="' + threeWeekStartDay + '"]').children().find(".div-bar").append(event);
+								
+								if ( threeWeekNumber > 7 ) {
+									var fourWeekStartDay = threeWeekEndDay + 1;
+									var fourWeekEndDay = fourWeekStartDay + 6;
+									var fourWeekNumber = (fourWeekEndDay - fourWeekStartDay + 1) + threeWeekRemainDate;
+									var fourWeekRemainDate = threeWeekRemainDate - ((fourWeekEndDay - fourWeekStartDay) + 1);
+									if (fourWeekRemainDate < 0) {
+										fourWeekRemainDate = 0;
+									}
+									var fourWeekCutDivDay = threeWeekRemainDate - fourWeekRemainDate;
+									var fourWeekDivSize = 135 * fourWeekCutDivDay;
+									
+									var event =  '<div class="event-index" data-days="' + fourWeekRemainDate + '" style="width: '+fourWeekDivSize+'px;">' + data[i].calendarTitle + '</div>';
+									$('[data-tdday="' + fourWeekStartDay + '"]').children().find(".div-bar").append(event);
+									
+									if ( fourWeekNumber > 7 ) {
+										var fiveWeekStartDay = fourWeekEndDay + 1;
+										var fiveWeekEndDay = fiveWeekStartDay + 5;
+										var fiveWeekNumber = (fiveWeekEndDay - fiveWeekStartDay + 1) + fourWeekRemainDate;
+										var fiveWeekRemainDate = fourWeekRemainDate - ((fiveWeekEndDay - fiveWeekStartDay) + 1);
+										if (fiveWeekRemainDate < 0) {
+											fiveWeekRemainDate = 0;
+										}
+										var fiveWeekCutDivDay = fourWeekRemainDate - fiveWeekRemainDate;
+										var fiveWeekDivSize = 135 * fiveWeekCutDivDay
+										
+										var event =  '<div class="event-index" data-days="' + fiveWeekRemainDate + '" style="width: '+fiveWeekDivSize+'px;">' + data[i].calendarTitle + '</div>';
+										$('[data-tdday="' + fiveWeekStartDay + '"]').children().find(".div-bar").append(event);
+									}
+								}
+							}
+						}
+					}
 				});
 			}
 		});
@@ -238,6 +327,9 @@
 	function getDayText(year, month){
 
 		var dayTd = [];
+		// 달력 날짜나오기전 앞에 빈칸
+		var d1 = (year+(year-year%4)/4-(year-year%100)/100+(year-year%400)/400 
+			+month*2+(month*5-month*5%9)/9-(month<3?year%4||year%100==0&&year%400?2:3:4))%7;
 		for (i = 0; i < 42; i++) { 
 			if (i%7==0){
 				dayTd += '</tr>\n<tr>'; 
@@ -245,18 +337,22 @@
 			if (i < d1 || i >= d1+(month*9-month*9%8)/8%2+(month==2?year%4||year%100==0&&year%400?28:29:30)) {
 				dayTd += '<td> </td>'; 
 			}else{
-				dayTd += '<td' + (i%7 ? '' : ' style="color:red; " ') + ' >'
-				if ( (i+1-d1) == 1 ){
-					dayTd += '<div data-date="' + year + month + ((i+1-d1) < 10 ? ("0" + (i+1-d1)) : (i+1-d1)) + '" class="rows" >'
-				}else {
-					dayTd += '<div data-date="' + year + month + ((i+1-d1) < 10 ? ("0" + (i+1-d1)) : (i+1-d1)) + '" class="rows">'
+				if( (i+1-d1) == 1) {
+					dayTd += '<td' + (i%7 ? '' : ' style="color:red; " ') + ' data-tdday="'+(i+1-d1)+'" class="start">'
 				}
+				else if ( i%7 == 6 || (i+1-d1) == 30) {
+					dayTd += '<td class="end" data-tdday="'+(i+1-d1)+'">'
+				}
+				else {
+					dayTd += '<td' + (i%7 ? '' : ' style="color:red;" class="start" ') + ' data-tdday="'+(i+1-d1)+'" >'
+				}
+				dayTd += '<div data-day="'+(i+1-d1)+'" data-date="' + year + month + ((i+1-d1) < 10 ? ("0" + (i+1-d1)) : (i+1-d1)) + '" class="rows">'
 				dayTd += '<div class="day-number" style=" padding: 6px; border: 6px; height: 50%; width: 120px">' + (i+1-d1) + '</div>'
-				dayTd += '<div class="day-bar"></div>'
+				dayTd += '<div class="div-bar"> </div>' 
 				dayTd += '</div>' 
 				dayTd += '</td>'; 
 			}
-		}
+		} 
 		return dayTd;
 	}
 	//dayArray를 tag로 감싸서 text로 만듬
@@ -306,7 +402,7 @@
 </script>
 
 </head>
-<body >
+<body>
 	<div id="All" style="margin: 10px;">
 	<div id="left">
 		<div id="total">
@@ -316,7 +412,7 @@
 		</div>
 
 		<div id="detail">
-			<div id="number">${calendarList[0].calendarTitle}</div>
+			<!-- <div id="number">${calendarList[0].calendarTitle}</div> -->
 			<h2>Today</h2>
 			<table class="table table-striped">
 				<colgroup>
