@@ -2,7 +2,6 @@ package com.ktds.metamong.user.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,17 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.jdbc.JDBCAppender;
-import org.apache.log4j.spi.LoggingEvent;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.ktds.metamong.user.service.UserService;
 import com.ktds.metamong.user.vo.KakaoUserVO;
+import com.ktds.metamong.user.vo.SocialUserVO;
 import com.ktds.metamong.user.vo.UserVO;
 
 @Controller
@@ -41,121 +40,91 @@ public class KakaoController extends JDBCAppender {
 		return "redirect:/main";
 	}
 
-	/*public void loginData(UserVO userVO, HttpServletResponse response) {
-		Map<String, Object> data = new HashMap<String, Object>();
-		for (int i = 0; i < response.getBufferSize(); i++) {
-			data.put("response", response);
-		}
-		System.out.println(data);
-		userService.addNewUser(userVO);
-		response.equals(userVO.getUserId());
-		response.equals(userVO.getEmail());
-
-	}*/
-	
-	@RequestMapping(value = "/user/kakao/passwordInfo", method = RequestMethod.POST)
-	public String passwordInfo(UserVO user) {
-		System.out.println("bb");
-		user = new UserVO();
-		user.setUserPassword(user.getUserPassword());
-		System.out.println("passwordInfo : user = " + user);
-		System.out.println("userPassword = " + user.getUserPassword());
-//		return "";
-		return "redirect:/user/kakao/loginUser";
-	}
-	
-	@ResponseBody
+	//SocialUserVO 사용 (비밀번호 없는 테이블)
 	@RequestMapping(value = "/user/kakao/loginUser", method = RequestMethod.POST)
-	public String registerPost(@RequestBody UserVO user) {
-		UserVO userVO = new UserVO();
+	public String registerPost(SocialUserVO socialUserVO, HttpServletRequest request) {
+		
 
 		//유저 정보 확인 
-		UserVO userInfo = userService.getLoginOneUser(user.getUserId());
+		UserVO userInfo = userService.getLoginOneUser(socialUserVO.getUserId());
 		System.out.println(userInfo);
 		
 //		최초 로그인
 		 if(userInfo == null) {
-			 System.out.println("이동");
-		 	return "recirect:/user/kakao/inputPassword";
+			 boolean insertSocialUser = userService.addSocialNewUser(socialUserVO);
+			 socialUserVO.setLoginType(UserVO.KAKAO);
+			 System.out.println("insertSocialUser = " + insertSocialUser);
+			 
+			 if ( insertSocialUser ) {
+				HttpSession session = request.getSession();
+				session.setAttribute("_USER_", insertSocialUser);
+				return "redirect:/cal/list";
+			 }
+			 else {
+				return "redirect:/main";
+			 }
+			 /*try {
+					Map<String, Object> map = new HashMap<String, Object>();
+				    map.put("status", "success");
+				    map.put("user", user);
+				    Gson gson = new Gson();
+				     
+				    String json = gson.toJson(map);
+					
+				    PrintWriter write = response.getWriter();
+					write.write(json.toString());
+					write.flush();
+					write.close();
+				} catch (IOException e) {
+				}*/
 		 } else {
-			user.setUserPassword(userInfo.getUserPassword());
-		 
 			System.out.println("aa");
-			userVO.setUserId(user.getUserId());
-			userVO.setUserName(user.getUserName());
-			userVO.setEmail(user.getEmail());
-			userVO.setUserPassword(user.getUserPassword());
+			socialUserVO.setUserId(socialUserVO.getUserId());
+			socialUserVO.setUserName(socialUserVO.getUserName());
+			socialUserVO.setEmail(socialUserVO.getEmail());
 			
-			System.out.println("id = " + user.getUserId());
-			System.out.println("userName = " + user.getUserName());
-			System.out.println("email = " + user.getEmail());
-			System.out.println("password = " + userVO.getUserPassword());
+			System.out.println("id = " + socialUserVO.getUserId());
+			System.out.println("userName = " + socialUserVO.getUserName());
+			System.out.println("email = " + socialUserVO.getEmail());
 		
 			return "redirect:/cal/list";
 		 }
-//		userService.addNewUser(userVO);
-		
-//		String beforeUser = user;
-//		String[] splitData = new String[2];
-//		splitData = user.split(",");
-//		
-//		System.out.println(splitData[0]);
-//		System.out.println(splitData[1]);
-//		System.out.println(splitData[2]);
-//		
-//		
-//		String plusUser = splitData[0] + splitData[1] + splitData[2];
-//		System.out.println(plusUser);
-//		String[] splitData2 = new String[2];
-//		splitData2 = plusUser.split("{");
-//		System.out.println(splitData2[0]);
-//		System.out.println(splitData2[1]);
-//		System.out.println(splitData2[2]);
-//		
-//		
-//		System.out.println("userVO = " + userVO);
-		/*String userName = splitData[0];
-		String userId = splitData[1];
-		String email = splitData[2];
-		
-		userVO.setUserId(userId);
-		userVO.setEmail(email);
-		userVO.setUserName(userName);*/
-
-		
-		
-//		user.setUserName(userName);
-//		user.setUserId(userId);
-//		user.setEmail(email);
-		
-//		userService.addNewUser(user);
-//		System.out.println("userVO = " + user);
-
-		
 	}
 	
-
+	
+	@RequestMapping(value = "/user/kakao/passwordInfo", method = RequestMethod.POST)
+	public String passwordInfo(SocialUserVO socialUser) {
+		System.out.println("bb");
+		UserVO userVO = new UserVO();
+		userVO.setUserPassword(userVO.getUserPassword());
+		System.out.println("passwordInfo : SocialUser = " + socialUser);
+		System.out.println("userPassword = " + userVO.getUserPassword());
+		return "";
+//		return "redirect:/user/kakao/loginUser";
+	}
+	
 	@RequestMapping(value="/user/kakao/inputPassword", method=RequestMethod.GET)
 	public String viewPasswordInfoPage() {
 		return "user/passwordInfo";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/user/kakao/inputPassword", method=RequestMethod.POST)
-	public String doInputPassword(@RequestBody UserVO user, @RequestParam String password, String token, HttpSession session){
+	public String doInputPassword(@RequestBody SocialUserVO socialUser, @RequestParam String password, String token, HttpSession session, HttpServletResponse response){
 		System.out.println("aa");
 		UserVO userVO = new UserVO();
-		userVO.setUserId(user.getUserId());
-		userVO.setUserName(user.getUserName());
-		userVO.setEmail(user.getEmail());
+		userVO.setUserId(socialUser.getUserId());
+		userVO.setUserName(socialUser.getUserName());
+		userVO.setEmail(socialUser.getEmail());
 		userVO.setUserPassword(password);
 		
 		
-		System.out.println("id = " + user.getUserId());
-		System.out.println("userName = " + user.getUserName());
-		System.out.println("email = " + user.getEmail());
+		System.out.println("id = " + socialUser.getUserId());
+		System.out.println("userName = " + socialUser.getUserName());
+		System.out.println("email = " + socialUser.getEmail());
 		System.out.println("password = " + userVO.getUserPassword());
 		
-		userService.addNewUser(user);
+		userService.addNewUser(userVO);
 		
 		// 세션처리
 		KakaoUserVO kakaoUser = (KakaoUserVO) session.getAttribute("_USER_");
@@ -167,10 +136,17 @@ public class KakaoController extends JDBCAppender {
 		kakaoUser.setAccessToken(token);
 		session.setAttribute("_USER_", userVO);
 		
+		try {
+			PrintWriter write = response.getWriter();
+			write.write("fail");
+			write.flush();
+			write.close();
+		} catch (IOException e) {
+		}
+		
 		return "redirect:/cal/list";
 	}
 	
-
 	@RequestMapping(value = "/user/kakao/session", method = RequestMethod.POST)
 	public void actionKakaobuildSession(@RequestParam String token, HttpSession session, HttpServletResponse response) {
 

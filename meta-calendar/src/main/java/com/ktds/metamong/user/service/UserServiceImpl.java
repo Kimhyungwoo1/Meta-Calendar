@@ -1,6 +1,7 @@
 package com.ktds.metamong.user.service;
 
 import com.ktds.metamong.user.biz.UserBiz;
+import com.ktds.metamong.user.vo.SocialUserVO;
 import com.ktds.metamong.user.vo.UserListVO;
 import com.ktds.metamong.user.vo.UserSearchVO;
 import com.ktds.metamong.user.vo.UserVO;
@@ -36,6 +37,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserVO getLoginOneUser(String userId) {
 		return userBiz.getLoginOneUser(userId);
+	}
+
+	@Override
+	public SocialUserVO selectSocialOneUser(SocialUserVO socialUserVO) {
+		return userBiz.selectSocialOneUser(socialUserVO);
+	}
+
+	@Override
+	public boolean addSocialNewUser(SocialUserVO socialUserVO) {
+		return userBiz.addSocialNewUser(socialUserVO);
 	}
 
 }
