@@ -230,7 +230,7 @@ public class CalendarController {
 		return oneCalendar;
 	}
 
-	@RequestMapping("/")
+	@RequestMapping("/main")
 	public String mainPage(){
 		return "common/mainPage";
 	}
