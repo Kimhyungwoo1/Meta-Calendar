@@ -6,13 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -131,6 +128,21 @@ public class CalendarController {
 
 	@RequestMapping(value = "/cal/update", method = RequestMethod.POST)
 	public void ActionUpdate(HttpServletResponse response, CalendarVO calendarVO) {
+		
+		String startDate = calendarVO.getStartDate();
+		String endDate = calendarVO.getEndDate();
+		
+		String[] spiltStart = startDate.split("-");
+		String[] spiltEnd = endDate.split("-");
+		
+		String startDatePartsAdd = spiltStart[0] + spiltStart[1] + spiltStart[2];
+		String endDatePartsAdd = spiltEnd[0] + spiltEnd[1] + spiltEnd[2];
+		
+		int startDateInt = Integer.parseInt(startDatePartsAdd);
+		int endDateInt = Integer.parseInt(endDatePartsAdd);
+		
+		calendarVO.setStartDateInt(startDateInt);
+		calendarVO.setEndDateInt(endDateInt);
 
 		boolean calendarUpdate = calendarService.updateCalendar(calendarVO);
 
@@ -145,46 +157,20 @@ public class CalendarController {
 			}
 		}
 	}
-
-	// 기능 테스트를 위한 페이지 - 규동
+	
 	@RequestMapping(value = "/cal/test", method = RequestMethod.GET)
-	public String testPage() {
+	public String doTestPage() {
 		return "calendar/test";
+
 	}
-
+	// 기능 테스트를 위한 페이지 - 규동
+	@ResponseBody
 	@RequestMapping(value = "/cal/test", method = RequestMethod.POST)
-	public String doTestPage(CalendarVO calendarVO,
-			 HttpServletResponse response, HttpServletRequest request) {
-
-		String startDate = calendarVO.getStartDate();
-		String endDate = calendarVO.getEndDate();
-		
-		String[] spiltStart = startDate.split("-");
-		String[] spiltEnd = endDate.split("-");
-		
-		String startDatePartsAdd = spiltStart[0] + spiltStart[1] + spiltStart[2];
-		String endDatePartsAdd = spiltEnd[0] + spiltEnd[1] + spiltEnd[2];
-		
-		int startDateInt = Integer.parseInt(startDatePartsAdd);
-		int endDateInt = Integer.parseInt(endDatePartsAdd);
-		
-		System.out.println(spiltStart[0]);
-		System.out.println(spiltStart[1]);
-		System.out.println(spiltStart[2]);
-		System.out.println(spiltEnd[0]);
-		System.out.println(spiltEnd[1]);
-		System.out.println(spiltEnd[2]);
-		System.out.println(startDateInt);
-		System.out.println(endDateInt);
-		
-		
-		logger.info("startDate : " + calendarVO.getStartDate());
-		logger.info("endDate : " + calendarVO.getEndDate());
+	public String testPage(HttpServletResponse response, String year, String month) {
 		
 		return "";
-
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/cal/dday", method = RequestMethod.POST)
 	public List<CalendarVO> alertTest() {
@@ -253,5 +239,4 @@ public class CalendarController {
 	public String viewMapAndDirection() {
 		return "calendar/map";
 	}
-
 }
