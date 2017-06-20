@@ -96,8 +96,8 @@
 			UPDATE	CLNDR	
 			SET		CLNDR_TITLE = #{calendarTitle}
 					, CLNDR_SUB_TITLE = #{calendarSubTitle}
-					, CLNDR_STRT_DT = #{startDate}
-					, CLNDR_END_DT = #{endDate}
+					, CLNDR_STRT_DT = #{startDateInt}
+					, CLNDR_END_DT = #{endDateInt}
 			WHERE	CLNDR_ID = #{calendarId}
 		</update>
 		
