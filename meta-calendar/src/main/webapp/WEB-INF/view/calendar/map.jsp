@@ -40,22 +40,30 @@
           border: 1px solid #999;
         }
     </style>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4P856claPQvdkNkT6JMmslIbARRa-H8k&callback=myMap"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4P856claPQvdkNkT6JMmslIbARRa-H8k&callback=initialize"></script>
     <script>
+    
     var directionsDisplay;
     var directionsService = new google.maps.DirectionsService();
     var map;
  
     function initialize() {
-      directionsDisplay = new google.maps.DirectionsRenderer();
-      var mapCenter = new google.maps.LatLng(37.482,127.003);
-      var mapOptions = {
-        zoom:15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: mapCenter
-      }
-      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-      directionsDisplay.setMap(map);
+		directionsDisplay = new google.maps.DirectionsRenderer();
+		var mapCenter = new google.maps.LatLng(37.482,127.003);
+		var mapOptions = {
+			center: mapCenter,			
+		   	zoom:16,
+		   	mapTypeId: google.maps.MapTypeId.ROADMAP,
+		   	center: mapCenter
+		}
+		
+	  
+		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		directionsDisplay.setMap(map);
+		
+		google.maps.event.addListener(map, 'click', function(event) {
+			  placeMarker(map, event.latLng);
+		});
     }
  
     function calcRoute() {
@@ -77,6 +85,18 @@
         }
       });
     }
+    
+    function placeMarker(map, location) {
+    	  var marker = new google.maps.Marker({
+    	    position: location,
+    	    animation: google.maps.Animation.BOUNCE,
+    	    map: map
+    	  });
+    	  var infowindow = new google.maps.InfoWindow({
+    	    content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
+    	  });
+    	  infowindow.open(map,marker);
+    	}
  
     google.maps.event.addDomListener(window, 'load', initialize);
  
