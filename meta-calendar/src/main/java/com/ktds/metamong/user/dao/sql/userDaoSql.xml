@@ -21,6 +21,25 @@
 								)
 		</insert>
 		
+		<insert id="insertSocialNewUser" parameterType="SocialUserVO">
+			INSERT	INTO	SOCL_USR	( /*[UserDao][insertSocialNewUser]*/
+									USR_ID
+									, USR_NM
+									, EMAIL
+								)
+			VALUES				(
+									#{userId}
+									, #{userName}
+									, #{email}
+								)
+		</insert>
+		
+		<resultMap type="SocialUserVO" id="socialUserMap">
+			<id column="USR_ID" property="userId"/>
+			<result column="USR_NM" property="userName"/>
+			<result column="EMAIL" property="email"/>
+		</resultMap>
+		
 		<resultMap type="UserVO" id="userMap">
 			<id column="USR_ID" property="userId"/>
 			<result column="USR_NM" property="userName"/>
@@ -43,12 +62,31 @@
 			<include refid="CommonDao.PAGING_FOOTER" />
 		</select>
 		
+		<select id="getLoginOneUser" parameterType="string" resultMap="userMap">
+			SELECT	USR_ID
+					, USR_NM
+					, USR_PWD
+					, EMAIL
+					, USR_CRT_DT
+			FROM	USR
+			WHERE	USR_ID = #{userId}
+		</select>
+		
 		<select id="selectAllUserListCount" parameterType="UserSearchVO" resultType="_int">
 			SELECT	COUNT(1)
 			FROM		USR
 		</select>
 		
-		
+		<select id="selectSocialOneUser" parameterType="SocialUserVO" resultMap="socialUserMap">
+			
+			SELECT	USR_ID
+					, USR_NM 
+					, EMAIL 
+			FROM	USR
+			WHERE	USR_ID = #{userId}
+			AND		EMAIL = #{email}
+			
+		</select>
 		
 		<select id="selectOneUser" parameterType="UserVO" resultMap="userMap">
 			
@@ -69,8 +107,6 @@
 					, EMAIL = #{email}
 			WHERE	USR_ID = #{userId}
 		</update>
-		
-
 	</mapper>
 	
 	

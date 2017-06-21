@@ -81,7 +81,7 @@ public class UserController {
 		return "redirect:/main";
 	}
 	
-	@RequestMapping("/main")
+	@RequestMapping("/user/main")
 	public ModelAndView main(HttpServletRequest request, HttpSession session) {
 		ModelAndView view = new ModelAndView();
 		

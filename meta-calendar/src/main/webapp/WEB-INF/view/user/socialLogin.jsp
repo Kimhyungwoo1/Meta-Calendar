@@ -9,9 +9,9 @@
 	<meta name="viewport"content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
 	<meta name="google-signin-client_id" content="818893027331-ss8am5r339qu1uespfmobqt23i0hgj41.apps.googleusercontent.com">
 	<link rel="stylesheet" type="text/css" href="<c:url value="/static/css/signIn.css"/>">
-	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<script type="text/javascript" src="<c:url value="/static/js/jquery-3.1.1.min.js"/> "></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript" src="<c:url value="/static/js/naverLogin_implicit-1.0.3-min.js"/>" charset="utf-8"></script>
 	<script type="text/javascript">
 		// 사용할 앱의 JavaScript 키를 설정해 주세요.
@@ -32,32 +32,74 @@
 									console.log(response);
 									$('#custom-login-btn').data(response)
 									/* alert(response.properties.nickname+'님 환영합니다.');
-									alert(response.properties.kaccount_email);
-									alert(response.properties.id);
+									alert(response.kaccount_email);
+									alert(response.id);
 									alert(response.properties.profile_image);
 									alert(response.properties.thumbnail_image); */
+									
 									var userName = response.properties.nickname;
 									var email = response.kaccount_email;
 									var userId = response.id;
 									var loginProfileImage = response.properties.profile_image;
 									var loginThumbnailImage = response.properties.thumbnail_image;
 									var user = {
-										'userName' : userName
-										, 'email' : email
-										, 'userId' : userId
-										, 'loginProfileImage' : loginProfileImage
-										, 'loginThumbnailImage' : loginThumbnailImage
+										userName : userName
+										, email : email
+										, userId : userId
+										, loginProfileImage : loginProfileImage
+										, loginThumbnailImage : loginThumbnailImage
 									};
+								
 									$.ajax({
 										type: 'POST',
 										url: '<c:url value="/user/kakao/loginUser"/>',
 										contentType: 'application/json; charset=UTF-8',
 										data: JSON.stringify(user)
-									}).done(function(user){
-										alert('user.userName = ' + user.userName);
-									});
+									}).done(function(response){
+										if(response == "fail"){
+											
+											location.href="/meta-calendar/user/kakao/inputPassword";
+										} 
+									}); 
+									
+/* 									$.ajax({
+										type: 'GET',
+										url: '<c:url value="/user/kakao/inputPassword"/>',
+										async: false,
+									}).done(function(response){
+										console.log("비밀번호 입력하는 곳으로 갔니?");
+										alert('user.userPassword = ' + response.userPassword);
+									}); */
 									/* var param = $(this).serializeArray();
 									var test = $.param(param); */
+
+									
+									$.post("<c:url value="/user/kakao/loginUser"/>", {
+										"userName" : userName
+										, "email" : email
+										, "userId" : userId
+										, "loginProfileImage" : loginProfileImage
+										, "loginThumbnailImage" : loginThumbnailImage
+									}, function(response){
+										alert("user.userName = " + user.userName);
+									});
+									
+									var userPassword = response.userPassword;
+									$.post("<c:url value="/user/kakao/loginUser"/>", {
+										"userName" : userName
+										, "email" : email
+										, "userId" : userId
+										, "loginProfileImage" : loginProfileImage
+										, "loginThumbnailImage" : loginThumbnailImage
+									}, function(response) {
+										alert("password success?")
+									}, 'json')
+									.done(function(response) {
+										alert("user.userName = " + user.userName);
+										alert("user.email = " + user.email);
+										alert("user.userId = " + user.userId);
+									});
+
 								},
 								fail: function(error) {
 									console.log(JSON.stringify(error));
@@ -65,13 +107,14 @@
 							});
 						}
 						
-						/* $.post("<c:url value="/user/kakao/session" />", {
+						$.post("<c:url value="/user/kakao/session" />", {
 							token : token
 						}, function(response) {
 							if (response == "ok") {
-								location.reload();
+								location.href("<c:url value="/cal/list"/>");
+								//location.reload();
 							}
-						}) */
+						})
 				},
 				fail : function(err) {
 					console.log(err);
@@ -80,6 +123,50 @@
 			
 		};
 		
+		function loginWithNaver() {
+			if (token != null) {
+				if (resultCode == "00") {
+					var userId = response.id;
+					var email = response.email;
+					var userName = response.name;
+					var profile_image = response.profile_image;
+					var enc_id = response.enc_id;
+					var age = response.age;
+					var gender = response.gender;
+					var name = response.nickname;
+					var birthday = response.birthday;
+					var user = {
+						userId : userId
+						, email : email
+						, userName : userName
+						, profile_image : profile_image
+						, enc_id : enc_id
+						, age : age
+						, gender : gender
+						, name : name
+						, birthday : birthday
+					};
+					
+					$.post("<c:url value="/user/naver/userInfo"/>", {
+						"userId" : userId
+						, "email" : email
+						, "userName" : userName
+						, "profile_image" : profile_image
+						, "enc_id" : enc_id
+						, "age" : age
+						, "gender" : gender
+						, "name" : name
+						, "birthday" : birthday
+					}, function(response){
+						alert("user.userName = " + user.userName);
+					});
+				} 
+				else {
+					console.log(JSON.stringify(message));
+				}
+			}
+			
+		}
 		
 		// 페이스북 로그인
 		
@@ -245,7 +332,7 @@
 							<img style="width: 235px;" src="<c:url value="/static/img/btn_google_signin_light_normal_web@2x.png"/> ">
 						</a>
 						<div id="naver_id_login"></div>
-						<a id="custom-login-btn" href="javascript:loginWithKakao()"> 
+						<a id="custom-login-btn" href="<c:url value="javascript:loginWithKakao()"/>"> 
 							<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="235px;" />
 						</a>
 						<!-- 
@@ -259,6 +346,7 @@
 					</div>
 				</div>
 			</div>
+			<form id="naver_id_login" href="<c:url value="javascript:loginWithNaver()"/>">
 			<script type="text/javascript">
 				var naver_id_login = new naver_id_login("xRetYdib8e35Loz5rIBq", "http://localhost:8080/meta-calendar/user/callback");
 				var state = naver_id_login.getUniqState();
@@ -268,6 +356,7 @@
 				naver_id_login.setPopup();
 				naver_id_login.init_naver_id_login();
 			</script>
+			</form>
 		</c:otherwise>
 	</c:choose>
 	

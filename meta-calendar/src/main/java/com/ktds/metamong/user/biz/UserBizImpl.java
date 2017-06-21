@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ktds.metamong.common.web.Pager;
 import com.ktds.metamong.user.dao.UserDao;
+import com.ktds.metamong.user.vo.SocialUserVO;
 import com.ktds.metamong.user.vo.UserListVO;
 import com.ktds.metamong.user.vo.UserSearchVO;
 import com.ktds.metamong.user.vo.UserVO;
@@ -54,6 +55,21 @@ public class UserBizImpl implements UserBiz {
 	@Override
 	public boolean updateUser(UserVO userVO) {
 		return userDao.modifyUser(userVO) > 0;
+	}
+
+	@Override
+	public UserVO getLoginOneUser(String userId) {
+		return userDao.getLoginOneUser(userId);
+	}
+
+	@Override
+	public SocialUserVO selectSocialOneUser(SocialUserVO socialUserVO) {
+		return userDao.selectSocialOneUser(socialUserVO);
+	}
+
+	@Override
+	public boolean addSocialNewUser(SocialUserVO socialUserVO) {
+		return userDao.insertSocialNewUser(socialUserVO) > 0;
 	}
 	
 }

@@ -10,30 +10,31 @@
 <title>DdayAlertTestPage</title>
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.1.1.min.js"/> "></script>
 <script type="text/javascript">
+
+var month = new Date().getMonth()+1;
+var year = new Date().getFullYear();
 $().ready(function(){
-	$("#valiTestForm").find("input[type=button]").click(function(){
-		$("#valiTestForm").attr({
-			"method" : "post",
-			"action" : "<c:url value="/cal/test"/>"
-		});
-	$("#valiTestForm").submit();
+	
+	$.post("<c:url value="/cal/test"/>",{
+		year : year,
+		month : month
+	}, function(data) {
+		$("body").append(data);
 	});
+	
+	$("body").on("click", ".prev", function() {
+		$.post("<c:url value="/cal/testTest"/>",{
+			year : year,
+			month : month
+		}, function(data) {
+			console.log(data);
+		})
+	});
+	
 });
 </script>
 </head>
 <body>
-
-	<form id="valiTestForm">
-		<input type="text" name="calendarTitle" placeholder="일정 이름" /><br/>
-		
-		<input type="text" name="calendarSubTitle" placeholder="일정 요약"/><br/>
-		
-		<input type="date" name="startDate"/><br/>
-		
-		<input type="date" name="endDate"/><br/>
-		
-		<input type="button" value="등록" />
-	</form>
 
 </body>
 </html>

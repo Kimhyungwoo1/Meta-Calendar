@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
+import com.ktds.metamong.user.vo.SocialUserVO;
 import com.ktds.metamong.user.vo.UserSearchVO;
 import com.ktds.metamong.user.vo.UserVO;
 
@@ -32,6 +33,21 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao{
 	@Override
 	public int modifyUser(UserVO userVO) {
 		return getSqlSession().update(US + ".modifyUser", userVO);
+	}
+
+	@Override
+	public UserVO getLoginOneUser(String userId) {
+		return getSqlSession().selectOne(US + ".getLoginOneUser", userId);
+	}
+
+	@Override
+	public SocialUserVO selectSocialOneUser(SocialUserVO socialUserVO) {
+		return getSqlSession().selectOne(US + ".selectSocialOneUser", socialUserVO);
+	}
+
+	@Override
+	public int insertSocialNewUser(SocialUserVO socialUserVO) {
+		return getSqlSession().insert(US + ".insertSocialNewUser", socialUserVO);
 	}
 
 	

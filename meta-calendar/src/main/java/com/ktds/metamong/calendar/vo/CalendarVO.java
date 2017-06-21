@@ -6,13 +6,13 @@ public class CalendarVO {
 
 	private String calendarId;
 	
-	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
+	@NotEmpty(message = "ÀÏÁ¤ Á¦¸ñÀ» ÀÔ·ÂÇÏ¼¼¿ä.")
 	private String calendarTitle;
-	@NotEmpty(message = "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
+	@NotEmpty(message = "ÀÏÁ¤¿¡ ´ëÇÑ ¼³¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä.")
 	private String calendarSubTitle;
-	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
+	@NotEmpty(message = "½ÃÀÛ ³¯Â¥¸¦ ÀÔ·ÂÇÏ¼¼¿ä.")
 	private int startDateInt;
-	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½")
+	@NotEmpty(message = "Á¾·á ³¯Â¥¸¦ ÀÔ·ÂÇÏ¼¼¿ä.")
 	private int endDateInt;
 	private String startDate;
 	private String endDate;

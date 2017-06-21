@@ -13,24 +13,25 @@
 <body>
 
     
-	<script type="text/javascript">
-var naver_id_login = new naver_id_login("xRetYdib8e35Loz5rIBq", "http://localhost:8080/meta_calendar/user/callback");
-// 접근 토큰 값 출력
-console.log(naver_id_login.oauthParams.access_token);
-
-$.post("<c:url value="/user/naver/savetoken"/>", {"accessToken": naver_id_login.oauthParams.access_token}, function(response) {});
-
-// 네이버 사용자 프로필 조회
-naver_id_login.get_naver_userprofile("naverSignInCallback()");
-// 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
-function naverSignInCallback() {
-	console.log(naver_id_login.getProfileData('email'));
-	console.log(naver_id_login.getProfileData('nickname'));
-	console.log(naver_id_login.getProfileData('age'));
-  
-  opener.document.location.href="<c:url value="/main"/>";
-  self.close();
-}
+<script type="text/javascript">
+	var naver_id_login = new naver_id_login("xRetYdib8e35Loz5rIBq", "http://localhost:8080/meta_calendar/user/callback");
+	// 접근 토큰 값 출력
+	console.log(naver_id_login.oauthParams.access_token);
+	
+	$.post("<c:url value="/user/naver/savetoken"/>", {"accessToken": naver_id_login.oauthParams.access_token}, function(response) {});
+	
+	// 네이버 사용자 프로필 조회
+	naver_id_login.get_naver_userprofile("naverSignInCallback()");
+	
+	// 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+	function naverSignInCallback() {
+		console.log(naver_id_login.getProfileData('email'));
+		console.log(naver_id_login.getProfileData('nickname'));
+		console.log(naver_id_login.getProfileData('age'));
+	  
+	    opener.document.location.href="<c:url value="/cal/list"/>"; //main
+	    self.close();
+	}
 </script>
 </body>
 </html>
