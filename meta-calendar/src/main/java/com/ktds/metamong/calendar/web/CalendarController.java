@@ -56,7 +56,7 @@ public class CalendarController {
 	}
 
 	@RequestMapping(value = "/cal/write", method = RequestMethod.POST)
-	public String doWriteCalendar(CalendarVO calendarVO, 
+	public void doWriteCalendar(CalendarVO calendarVO, 
 			HttpServletResponse response, HttpServletRequest request) {
 
 		String startDate = calendarVO.getStartDate();
@@ -67,9 +67,21 @@ public class CalendarController {
 		
 		String startDatePartsAdd = spiltStart[0] + spiltStart[1] + spiltStart[2];
 		String endDatePartsAdd = spiltEnd[0] + spiltEnd[1] + spiltEnd[2];
+		String startDateYear = spiltStart[0];
+		String startDateMonth = spiltStart[1];
+		String startDateDay = spiltStart[2];
+		String endDateYear = spiltEnd[0];
+		String endDateMonth = spiltEnd[1];
+		String endDateDay = spiltEnd[2];
 		
 		int startDateInt = Integer.parseInt(startDatePartsAdd);
 		int endDateInt = Integer.parseInt(endDatePartsAdd);
+		int startDateYearInt = Integer.parseInt(startDateYear);
+		int startDateMonthInt = Integer.parseInt(startDateMonth);
+		int startDateDayInt = Integer.parseInt(startDateDay);
+		int endDateYearInt = Integer.parseInt(endDateYear);
+		int endDateMonthInt = Integer.parseInt(endDateMonth);
+		int endDateDayInt = Integer.parseInt(endDateDay);
 
 		CalendarVO calendar = new CalendarVO();
 
@@ -77,6 +89,12 @@ public class CalendarController {
 		calendar.setCalendarSubTitle(calendarVO.getCalendarSubTitle());
 		calendar.setStartDateInt(startDateInt);
 		calendar.setEndDateInt(endDateInt);
+		calendar.setStartDateYear(startDateYearInt);
+		calendar.setStartDateMonth(startDateMonthInt);
+		calendar.setStartDateDay(startDateDayInt);
+		calendar.setEndDateYear(endDateYearInt);
+		calendar.setEndDateMonth(endDateMonthInt);
+		calendar.setEndDateDay(endDateDayInt);
 		
 
 		boolean isSuccess = calendarService.addNewCalendar(calendar);
@@ -91,7 +109,6 @@ public class CalendarController {
 			}
 		}
 
-		return "redirect:/cal/list";
 	}
 
 	@RequestMapping("/cal/delete")
@@ -164,11 +181,10 @@ public class CalendarController {
 
 	}
 	// 기능 테스트를 위한 페이지 - 규동
-	@ResponseBody
 	@RequestMapping(value = "/cal/test", method = RequestMethod.POST)
-	public String testPage(HttpServletResponse response, String year, String month) {
+	public String testPage() {
 		
-		return "";
+		return "calendar/test";
 	}
 	
 	@ResponseBody

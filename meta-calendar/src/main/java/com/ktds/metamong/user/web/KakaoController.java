@@ -37,7 +37,7 @@ public class KakaoController extends JDBCAppender {
 
 		session.invalidate();
 
-		return "redirect:/main";
+		return "redirect:/user/main";
 	}
 
 	//SocialUserVO 사용 (비밀번호 없는 테이블)
