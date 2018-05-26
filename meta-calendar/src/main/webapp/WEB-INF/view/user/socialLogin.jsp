@@ -13,7 +13,8 @@
 	<script type="text/javascript" src="<c:url value="/static/js/jquery-3.1.1.min.js"/> "></script>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript" src="<c:url value="/static/js/naverLogin_implicit-1.0.3-min.js"/>" charset="utf-8"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" src="<c:url value="/static/js/hello.js"/>" ></script>
+	<script type="text/javascript" >
 		// 사용할 앱의 JavaScript 키를 설정해 주세요.
 		Kakao.init('5d7adc9cad9832f6fdbdfad38bb42591');
 		function loginWithKakao() {
@@ -31,11 +32,11 @@
 								success: function(response) {
 									console.log(response);
 									$('#custom-login-btn').data(response)
-									/* alert(response.properties.nickname+'님 환영합니다.');
+									alert(response.properties.nickname+'님 환영합니다.');
 									alert(response.kaccount_email);
 									alert(response.id);
 									alert(response.properties.profile_image);
-									alert(response.properties.thumbnail_image); */
+									alert(response.properties.thumbnail_image); 
 									
 									var userName = response.properties.nickname;
 									var email = response.kaccount_email;
@@ -123,6 +124,46 @@
 			
 		};
 		
+		function login(){
+			hello('google').login({scope: 'email'}).then(function(auth) {
+				hello(auth.network).api('/me').then(function(r) {
+					console.log(JSON.stringify(auth));
+					accessToken = auth.authResponse.access_token;
+					console.log(accessToken);
+					getGoogleMe(); // 로그인 하자마자 바로 사용자 정보 호출한다.
+				});
+			});
+		}
+		
+		function getGoogleMe(){
+			hello('google').api('me').then(
+					function(json) {
+						console.log(JSON.stringify(json));
+						name = json.name;
+					email = json.email;
+					domain = json.domain;
+					thumbnail = json.thumbnail;
+						console.log('name   : ' + name);
+					console.log('email  : ' + email);
+					console.log('domain : ' + domain);
+					console.log('thumbnail : ' + thumbnail);
+					loginComplete();// JSNI에 정의 되어있다.
+					}, 
+					function(e) {
+					console.log('me error : ' + e.error.message);
+				});
+		}
+		
+		function logout(){
+			hello('google').logout().then(
+					function() {
+						console.log('logout');
+					},
+					function(e) {
+						console.log('Signed out error: ' + e.error.message);
+				});
+		}
+		
 		function loginWithNaver() {
 			if (token != null) {
 				if (resultCode == "00") {
@@ -171,110 +212,13 @@
 		// 페이스북 로그인
 		
 	</script>
-	<!-- 페이스북 -->
-	<!-- 
-	<script type="text/javascript">
-	function statusChangeCallback(response) {
-		console.log('statusChangeCallback');
-		console.log(response);
-		if (response.status === 'connected') {
-			testAPI();
-		}
-		else if (response.status === 'not_authorized') {
-			document.getElementById('status').innerHTML = 'Please log' + 'into this app.';
-		}
-		else {
-			document.getElementById('status').innerHTML = 'Please log' + 'into Facebook.';
-		}
-	}
-	
-	/* function checkLoginStatue() {
-		FB.getLoginStatus(function(response) {
-		    statusChangeCallback(response);
-		});
-	} */
-	
-	window.fbAsyncInit = function() {
-	    FB.init({
-	      appId      : '646587625535673',
-	      cookie     : true,
-	      xfbml      : true,
-	      version    : 'v2.8'
-	    });
-	    
-	    FB.getLoginStatus(function(response) {
-	    	statusChangeCallback(response);
-	    	console.log("ss")
-	    	loadUserCredentials(response);
-	    });
-	    
-	    FB.AppEvents.logPageView();
-	};
 
-	(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.9&appId=646587625535673";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-	
-    function testAPI() {
-	    console.log('Welcome! Fetching your information....');
-	    FB.api('/me', function(response) {
-		    console.log('Successful login for : ' + response.name);
-		    document.getElementById('status').innerHTML = 
-			  'Thanks for logging in, ' + response.name + '!';
-	    	//console.log(JSON.stringify(response));
-		   
-	    });
-	  
-	    FB.getAuthResponse('/me', "");
-	    
-	    //var token = response.authResponse.accessToken;
-	    
-	    var token =""; 
-	    console.log("aa");
-		
-    }
-    function loadUserCredentials(response) { 
-    	console.log("bb");
-    	//token = window.localStorage.getItem(LOCAL_TOKEN_KEY); 
-    	//token = Facebook.Auth.getAccessToken();
-    	token = response.authResponse.accessToken;
-    	console.log(token);
-    	/* if (token) { 
-    		useCredentials(token); 
-    		System.out.println("Token : " + token);
-    	}  */
-    	$.post("<c:url value="/user/facebook/session" />", {
-			token : token
-    	}, function() {});
-    }
-	</script>
-	-->
 </head>
 <body>
 	<c:choose>
 		<c:when test="${ sessionScope._USER_.loginType eq '' }">
 			<a href="<c:url value="/user/update/${user.userId}" />">정보수정</a><br/>
 		</c:when>
-		<%-- <c:when test="${ sessionScope._USER_.loginType eq 'fb' }">
-			<form id="facebookLogout">
-				<input type="button" value="로그아웃"/>
-			</form>
-			<script type="text/javascript">
-				$().ready(function() {
-					$("#facebookLogout").find("input[type=button]").click(function () {
-						$("#facebookLogout").attr({
-							method:"post",
-							action:"<c:url value="/user/facebook/logout"/> "
-						});
-						$("#facebookLogout").submit();
-					});
-				});
-			</script>
-		</c:when> --%>
 		<c:when test="${ sessionScope._USER_.loginType eq 'kko' }">
 			<input type="button" value="로그아웃" id="logout"/>
 			<script type="text/javascript">
@@ -335,17 +279,11 @@
 						<a id="custom-login-btn" href="<c:url value="javascript:loginWithKakao()"/>"> 
 							<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="235px;" />
 						</a>
-						<!-- 
-						<div href="<c:url value="/user/facebook/session"/>">
-							<fb:login-button style="width: 187px; margin-right: 45px;" class="fb-login-button" scope="public_profile,email" data-size="large" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onclick="checkLoginState();">
-							</fb:login-button>
-						</div>	
-						<div id="status">
-						</div>
-						 -->
 					</div>
 				</div>
 			</div>
+			<button onclick="login()">Google LogIn</button>
+			<button onclick="logout()">Google Logout</button>
 			<form id="naver_id_login" href="<c:url value="javascript:loginWithNaver()"/>">
 			<script type="text/javascript">
 				var naver_id_login = new naver_id_login("xRetYdib8e35Loz5rIBq", "http://localhost:8080/meta-calendar/user/callback");

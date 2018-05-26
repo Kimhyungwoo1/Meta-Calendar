@@ -52,7 +52,13 @@ public class GoogleController {
 	@RequestMapping("/user/google/account")
 	public String getGoogleAccount(@RequestParam String code, HttpSession session) {
 		
+		logger.info("code : " + code);
+		
 		Person person = getGooglePerson(code);
+		
+		logger.info("email : " + person.getAccountEmail());
+		logger.info("birthday : " + person.getBirthday());
+		logger.info("name : " + person.getDisplayName());
 		
 		GoogleUserVO userVO = (GoogleUserVO) session.getAttribute("_USER_");
 		if ( userVO == null ) {
@@ -63,7 +69,7 @@ public class GoogleController {
 		userVO.setPerson(person);
 		session.setAttribute("_USER_", userVO);
 		
-		return "redirect:/main";
+		return "redirect:/user/main";
 	}
 	
 	@RequestMapping(value="/user/google/signout", method=RequestMethod.POST)
@@ -72,7 +78,7 @@ public class GoogleController {
 		session = request.getSession();
 		session.invalidate();
 		
-		return "redirect:https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:8080/meta_calendar/main";
+		return "redirect:https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:8080/meta-calendar/user/main";
 	}
 	
 	//구글에서 로그인한 아이디의 정보추출

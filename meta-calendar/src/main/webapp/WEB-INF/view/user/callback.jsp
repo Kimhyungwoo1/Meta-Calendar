@@ -30,6 +30,7 @@
 		console.log(naver_id_login.getProfileData('age'));
 	  
 	    opener.document.location.href="<c:url value="/cal/list"/>"; //main
+	    opener.document.location.href="<c:url value="/user/main"/>";
 	    self.close();
 	}
 </script>

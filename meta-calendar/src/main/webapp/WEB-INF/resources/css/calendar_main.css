@@ -64,7 +64,7 @@ body {
 
 #total {
 	/* text-align: center; */
-	height: 600px;
+	height: 100%;
 }
 
 #calendarDiv {
@@ -80,7 +80,7 @@ body {
 #right {
 	float: right;
 	width: 25%;
-	height: 880px;
+	height: 100%;
 	display: inline-block;
 }
 

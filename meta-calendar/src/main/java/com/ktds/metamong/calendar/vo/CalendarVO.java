@@ -6,18 +6,81 @@ public class CalendarVO {
 
 	private String calendarId;
 	
-	@NotEmpty(message = "ÀÏÁ¤ Á¦¸ñÀ» ÀÔ·ÂÇÏ¼¼¿ä.")
+	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")
 	private String calendarTitle;
-	@NotEmpty(message = "ÀÏÁ¤¿¡ ´ëÇÑ ¼³¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä.")
+	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")
 	private String calendarSubTitle;
-	@NotEmpty(message = "½ÃÀÛ ³¯Â¥¸¦ ÀÔ·ÂÇÏ¼¼¿ä.")
+	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")
 	private int startDateInt;
-	@NotEmpty(message = "Á¾·á ³¯Â¥¸¦ ÀÔ·ÂÇÏ¼¼¿ä.")
+	@NotEmpty(message = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")
 	private int endDateInt;
+	private int startDateYear;
+	private int startDateMonth;
+	private int startDateDay;
+	private int endDateYear;
+	private int endDateMonth;
+	private int endDateDay;
 	private String startDate;
 	private String endDate;
+	private int other;
 	
 	private String gps;
+	
+	public void setStartDateDay(int startDateDay) {
+		this.startDateDay = startDateDay;
+	}
+	
+	public int getStartDateDay() {
+		return startDateDay;
+	}
+
+	public int getEndDateDay() {
+		return endDateDay;
+	}
+	
+	public void setEndDateDay(int endDateDay) {
+		this.endDateDay = endDateDay;
+	}
+	
+	public void setOther(int other) {
+		this.other = other;
+	}
+	
+	public int getOther() {
+		return other;
+	}
+	
+	public int getStartDateYear() {
+		return startDateYear;
+	}
+
+	public void setStartDateYear(int startDateYear) {
+		this.startDateYear = startDateYear;
+	}
+
+	public int getStartDateMonth() {
+		return startDateMonth;
+	}
+
+	public void setStartDateMonth(int startDateMonth) {
+		this.startDateMonth = startDateMonth;
+	}
+
+	public int getEndDateYear() {
+		return endDateYear;
+	}
+
+	public void setEndDateYear(int endDateYear) {
+		this.endDateYear = endDateYear;
+	}
+
+	public int getEndDateMonth() {
+		return endDateMonth;
+	}
+
+	public void setEndDateMonth(int endDateMonth) {
+		this.endDateMonth = endDateMonth;
+	}
 
 	public String getCalendarId() {
 		return calendarId;

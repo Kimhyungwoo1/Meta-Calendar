@@ -117,7 +117,7 @@ public class NaverLoginController {
 		}
 
 		session.invalidate();
-		return "redirect:/main";
+		return "redirect:/user/main";
 	}
 	
 	/*@RequestMapping(value = "/user/naver/signout", method = RequestMethod.POST)
